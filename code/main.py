@@ -36,15 +36,15 @@ def main():
     
     #Do feature selection if necessary before splitting train into X and y
     # for feature selection
-    X, y = preprocessor.feature_selection(train)
-    print(train.head())
+    #X, y = preprocessor.feature_selection(train)
+    #print(train.head())
     
     
     
     
     
     #FOR pca use
-    #X, y = preprocessor.pca(X)
+    X, y = preprocessor.pca(train)
     
     #SPLIT INTO TEST-TRAIN-SPLIT IF NECESSARY
     #SEPERATE y and X IF NECESSARY

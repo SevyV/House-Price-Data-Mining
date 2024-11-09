@@ -90,7 +90,7 @@ class Preprocessor:
         return data
     
     def pca(self, train, num_features=20):
-        y = train['PriceCategory'].copy
+        y = train['PriceCategory'].copy()
         train.drop(columns=['PriceCategory'], inplace=True)
         X = train
         # assumes data has already be preprocessed
