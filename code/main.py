@@ -13,6 +13,7 @@ from clustering import KMeansAlgo, DBSCANAlgo
 import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_selection import mutual_info_regression
+from sklearn.model_selection import train_test_split
 
 
 def parse_args():
@@ -27,13 +28,13 @@ def parse_args():
 def main():
     train_path, test_path = parse_args()
 
-    train = pd.read_csv(train_path)
+    data = pd.read_csv(train_path)
     # NOT SURE IF WE NEED TO USE TEST SINCE THE CSV DOES NOT INCLUDE LABELS
     # WE CAN JUST SPLIT TRAIN DATASET USING SKLEARNS TESET-TRAIN-SPLIT FUNCTION
-    test = pd.read_csv(test_path)
+    # test = pd.read_csv(test_path)
 
     preprocessor = Preprocessor()
-    train = preprocessor.preprocess(train)
+    data = preprocessor.preprocess(data)
 
     # Do feature selection if necessary before splitting train into X and y
     # for feature selection
@@ -41,21 +42,25 @@ def main():
     # print(train.head())
 
     # FOR pca use
-    X, y = preprocessor.pca(train)
+    # X, y = preprocessor.pca(data)
+
+    print(X.head())
 
     # SPLIT INTO TEST-TRAIN-SPLIT IF NECESSARY
     # SEPERATE y and X IF NECESSARY
     # Label columns is called "PriceCategory"
+    X = data.drop(columns=["PriceCategory"])
+    y = data["PriceCategory"]
 
-    print(X.head())
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=10
+    )
 
     # clustering and evaluation
-
     kmeans = KMeansAlgo()
     dbscan = DBSCANAlgo()
-    # train = train.drop(columns=["SalePrice"])
-    kmeans.apply_kmeans(train, test)
-    dbscan.apply_dbscan(train, test)
+    kmeans.apply_kmeans(X_train, X_test)
+    dbscan.apply_dbscan(X_train, X_test)
 
 
 main()
