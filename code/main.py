@@ -9,7 +9,7 @@ Created on Thu Nov  7 20:27:24 2024
 import argparse
 import pandas as pd
 from preprocessing import Preprocessor
-from clustering import KMeansAlgo, DBSCANAlgo
+from clustering import KMeansAlgo, DBSCANAlgo, HierchicalAlgo
 import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_selection import mutual_info_regression
@@ -43,15 +43,13 @@ def main():
 
     # FOR pca use
     # X, y = preprocessor.pca(data)
-
-    print(X.head())
+    # print(X.head())
 
     # SPLIT INTO TEST-TRAIN-SPLIT IF NECESSARY
     # SEPERATE y and X IF NECESSARY
     # Label columns is called "PriceCategory"
     X = data.drop(columns=["PriceCategory"])
     y = data["PriceCategory"]
-
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=10
     )
@@ -59,8 +57,10 @@ def main():
     # clustering and evaluation
     kmeans = KMeansAlgo()
     dbscan = DBSCANAlgo()
-    kmeans.apply_kmeans(X_train, X_test)
-    dbscan.apply_dbscan(X_train, X_test)
+    agg = HierchicalAlgo()
+    kmeans.apply_kmeans(X)
+    agg.apply_agg(X)
+    dbscan.apply_dbscan(X)
 
 
 main()

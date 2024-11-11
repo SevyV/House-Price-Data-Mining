@@ -2,8 +2,10 @@
 @author: kevinpark
 """
 
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
+from sklearn.cluster import AgglomerativeClustering
 from sklearn.metrics import (
     silhouette_score,
     calinski_harabasz_score,
@@ -11,25 +13,24 @@ from sklearn.metrics import (
 )
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
+from sklearn.neighbors import NearestNeighbors
 
 
 class ClusteringAlgorithm:
-    def apply_clustering(self, algo, X_train, X_test):
-
-        algo.fit(X_train)
+    def apply_clustering(self, algo, data):
 
         if isinstance(algo, KMeans):
-            train_labels = algo.predict(X_train)
-            test_labels = algo.predict(X_test)
+            labels = algo.fit_predict(data)
         elif isinstance(algo, DBSCAN):
-            train_labels = algo.labels_
-            test_labels = algo.fit_predict(X_test)
+            labels = algo.fit_predict(data)
+        elif isinstance(algo, AgglomerativeClustering):
+            labels = algo.fit_predict(data)
 
-        self.visualize_clusters(algo, X_test, test_labels)
+        self.visualize_clusters(algo, data, labels)
 
-        silhouette_score_ = silhouette_score(X_test, test_labels)
-        calinski_harabasz_score_ = calinski_harabasz_score(X_test, test_labels)
-        davies_bouldin_score_ = davies_bouldin_score(X_test, test_labels)
+        silhouette_score_ = silhouette_score(data, labels)
+        calinski_harabasz_score_ = calinski_harabasz_score(data, labels)
+        davies_bouldin_score_ = davies_bouldin_score(data, labels)
 
         print(f"Silhouette Score: {silhouette_score_:.3f}")
         print(f"Calinski-Harabasz Score: {calinski_harabasz_score_:.3f}")
@@ -37,7 +38,8 @@ class ClusteringAlgorithm:
 
     def visualize_clusters(self, algo, X, labels):
 
-        X = PCA(X, 2)
+        pca = PCA(n_components=2)
+        X = pca.fit_transform(X)
 
         plt.figure(figsize=(8, 6))
         scatter = plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="viridis")
@@ -54,12 +56,18 @@ class ClusteringAlgorithm:
 
 
 class KMeansAlgo(ClusteringAlgorithm):
-    def apply_kmeans(self, X_train, X_test):
+    def apply_kmeans(self, data):
         kmeans = KMeans(n_clusters=3)  # kmeans++ initialization
-        self.apply_clustering(kmeans, X_train, X_test)
+        self.apply_clustering(kmeans, data)
 
 
 class DBSCANAlgo(ClusteringAlgorithm):
-    def apply_dbscan(self, X_train, X_test):
-        dbscan = DBSCAN(eps=0.5, min_samples=5)
-        self.apply_clustering(dbscan, X_train, X_test)
+    def apply_dbscan(self, data):
+        dbscan = DBSCAN(eps=0.3, min_samples=5)
+        self.apply_clustering(dbscan, data)
+
+
+class HierchicalAlgo(ClusteringAlgorithm):
+    def apply_agg(self, data):
+        agg = AgglomerativeClustering(n_clusters=3, linkage="ward")
+        self.apply_clustering(agg, data)
