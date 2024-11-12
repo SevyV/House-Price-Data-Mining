@@ -26,20 +26,21 @@ class ClusteringAlgorithm:
         elif isinstance(algo, AgglomerativeClustering):
             labels = algo.fit_predict(data)
 
-        self.visualize_clusters(algo, data, labels)
-
+        algo_name = algo.__class__.__name__ if hasattr(algo, "__class__") else str(algo)
+        print(f"{algo_name}:")
         silhouette_score_ = silhouette_score(data, labels)
         calinski_harabasz_score_ = calinski_harabasz_score(data, labels)
         davies_bouldin_score_ = davies_bouldin_score(data, labels)
 
         print(f"Silhouette Score: {silhouette_score_:.3f}")
         print(f"Calinski-Harabasz Score: {calinski_harabasz_score_:.3f}")
-        print(f"Davies-Bouldin Score: {davies_bouldin_score_:.3f}")
+        print(f"Davies-Bouldin Score: {davies_bouldin_score_:.3f}\n")
+
+        self.visualize_clusters(algo, data, labels)
 
     def visualize_clusters(self, algo, X, labels):
-
-        pca = PCA(n_components=2)
-        X = pca.fit_transform(X)
+        """pca = PCA(n_components=2)
+        X = pca.fit_transform(X)"""
 
         plt.figure(figsize=(8, 6))
         scatter = plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="viridis")
@@ -57,17 +58,60 @@ class ClusteringAlgorithm:
 
 class KMeansAlgo(ClusteringAlgorithm):
     def apply_kmeans(self, data):
-        kmeans = KMeans(n_clusters=3)  # kmeans++ initialization
+        k_range = range(2, 11)
+        top_k = 0
+        top_score = -1
+        for k in k_range:
+            kmeans = KMeans(
+                n_clusters=k, random_state=25
+            )  # random_state specified for clustering consistency
+            kmeans.fit(data)
+            score = silhouette_score(data, kmeans.labels_)
+            if score > top_score:
+                top_score = score
+                top_k = k
+        print("best k is: " + str(top_k))
+        kmeans = KMeans(n_clusters=top_k, random_state=25)  # kmeans++ initialization
         self.apply_clustering(kmeans, data)
 
 
 class DBSCANAlgo(ClusteringAlgorithm):
     def apply_dbscan(self, data):
-        dbscan = DBSCAN(eps=0.3, min_samples=5)
+        # k-distance plot for tuning hyperparameter
+        k = 5
+
+        neigh = NearestNeighbors(n_neighbors=k)
+
+        nbrs = neigh.fit(data)
+        distances, indices = nbrs.kneighbors(data)
+
+        # Sort the distances for plotting
+        distances = np.sort(distances[:, k - 1], axis=0)
+
+        plt.plot(distances)
+        plt.title("k-distance graph")
+        plt.xlabel("Data Points")
+        plt.ylabel(f"{k}-distance")
+        plt.show()
+
+        dbscan = DBSCAN(eps=0.65, min_samples=k)
         self.apply_clustering(dbscan, data)
 
 
 class HierchicalAlgo(ClusteringAlgorithm):
     def apply_agg(self, data):
-        agg = AgglomerativeClustering(n_clusters=3, linkage="ward")
+        k_range = range(2, 11)
+        top_k = 0
+        top_score = -1
+        for k in k_range:
+            agg = AgglomerativeClustering(
+                n_clusters=k
+            )  # random_state specified for clustering consistency
+            agg.fit(data)
+            score = silhouette_score(data, agg.labels_)
+            if score > top_score:
+                top_score = score
+                top_k = k
+        print("best k is: " + str(top_k))
+        agg = AgglomerativeClustering(n_clusters=top_k, linkage="ward")
         self.apply_clustering(agg, data)

@@ -8,6 +8,7 @@ Created on Thu Nov  7 20:27:24 2024
 # This will be the main file where we run everything
 import argparse
 import pandas as pd
+from sklearn.decomposition import PCA
 from preprocessing import Preprocessor
 from clustering import KMeansAlgo, DBSCANAlgo, HierchicalAlgo
 import numpy as np
@@ -50,11 +51,15 @@ def main():
     # Label columns is called "PriceCategory"
     X = data.drop(columns=["PriceCategory"])
     y = data["PriceCategory"]
+
+    pca = PCA(n_components=2)
+    X = pca.fit_transform(X)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=10
     )
 
     # clustering and evaluation
+
     kmeans = KMeansAlgo()
     dbscan = DBSCANAlgo()
     agg = HierchicalAlgo()
