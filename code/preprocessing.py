@@ -9,6 +9,11 @@ from sklearn.preprocessing import StandardScaler
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
+from sklearn.linear_model import Lasso
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+
 class Preprocessor:
     
     def preprocess(self, train):
@@ -36,12 +41,36 @@ class Preprocessor:
         
         train = self.__hot_encode(train)
         train = self.__create_bin_labels(train)
+
+        # call feature select 
+        mi_selected_feat, mi_y = self.feature_selection(train)
+        lasso_selected_feat, lasso_y = self.lasso_feature_selection(train)
         
-        
+        mi_features = set(mi_selected_feat.columns)
+        lasso_features = set(lasso_selected_feat.columns)
+
+        common_features = mi_features.intersection(lasso_features)
+
+        print("Features selected by Mutual Information: ",  mi_features)
+        print("Features selected by Lasso Regression: ", lasso_features)
+        print("Common features selected by both methods: ", common_features)
+
         #test = self.__create_bin_labels(test)
         return train #, test
         
-    
+    def lasso_feature_selection(self, train: pd.DataFrame, alpha=0.067):
+        # 0.067
+        y_train = train['PriceCategory']
+        x_train = train.drop(columns=['PriceCategory'])
+
+        # standardize the features before applying lasso
+        lasso = make_pipeline(StandardScaler(), Lasso(alpha=alpha, random_state=42))
+        lasso.fit(x_train, y_train)
+
+        selected_columns = x_train.columns[(lasso.named_steps['lasso'].coef_ != 0)].tolist()
+        x_train_selected_df = x_train[selected_columns]
+
+        return x_train_selected_df, y_train
     
     def feature_selection(self, train, num_features=20):
         #assumes data has already be preprocessed
@@ -49,7 +78,6 @@ class Preprocessor:
         X_train = train.drop(columns=['PriceCategory'])
         
         
-  
         selector = SelectKBest(mutual_info_classif, k=num_features)
         selector.fit(X_train, y_train)
         selected_columns = X_train.columns[selector.get_support()].tolist()
@@ -122,8 +150,6 @@ class Preprocessor:
         #test_encoded = test_encoded.reindex(columns=train_encoded.columns, fill_value=0)
         
         return train_encoded #, test_encoded
-        
-        
     
     
     
