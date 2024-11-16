@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
 Created on Thu Nov  7 20:27:24 2024
 
@@ -15,6 +14,9 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_selection import mutual_info_regression
 from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 
 def parse_args():
@@ -66,6 +68,31 @@ def main():
     kmeans.apply_kmeans(X)
     agg.apply_agg(X)
     dbscan.apply_dbscan(X)
+
+    # SVM Classification and Evaluation 
+    svm_classifier = SVC(kernel='linear', random_state=42)
+    svm_classifier.fit(X_train,y_train)
+    y_prediction = svm_classifier.predict(X_test)
+
+    accuracy = accuracy_score(y_test, y_prediction)
+    print(f"Accuracy: {accuracy:.2f}")
+    # accuracy score without feature selection 0.81
+
+    print("Classification Report:")
+    print(classification_report(y_test,y_prediction))
+    # macro avg's: precision 0.88, recall 0.67, f1-score 0.74, support 291 (idk wtf this is)
+    # weighted avg's: precision 0.82, recall 0.81, f1-score 0.81, support 291
+
+    print("Confusion Matrix")
+    print(confusion_matrix(y_test,y_prediction))
+    """
+    Confusion Matrix
+    [[  8  12   0   0   0]
+    [  0 170  12   0   0]
+    [  0  20  40   0   0]
+    [  0   2   6  13   0]
+    [  0   0   0   2   6]]    
+    """
 
 
 main()
