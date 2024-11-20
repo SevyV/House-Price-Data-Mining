@@ -71,10 +71,10 @@ class RandomForest:
         rf = RandomForestClassifier(random_state=42)
 
         param_grid = {
-            'n_estimators': [42, 45, 50, 55],
-            'max_depth': [10, 11, 12],
-            'min_samples_split': [ 9, 10, 11],
-            'min_samples_leaf': [1, 2, 3, 4]
+            'n_estimators': [45, 50, 60, 100],
+            'max_depth': [10,20,30],
+            'min_samples_split': [8, 10, 12, 15],
+            'min_samples_leaf': [2, 6, 10]
         }
     
         grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2, scoring='accuracy')
