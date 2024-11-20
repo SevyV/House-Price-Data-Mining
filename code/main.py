@@ -17,6 +17,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from randomforest_finetuning import RandomForest
 
 
 def parse_args():
@@ -93,6 +94,13 @@ def main():
     [  0   2   6  13   0]
     [  0   0   0   2   6]]    
     """
+    
+    #Random Forest Results
+    results_initial = RandomForest.random_forest(X_train, X_test, y_train, y_test)
+    print("Initial Model Results:", results_initial)
+    #Fine-tuning RF results
+    results_tuned = RandomForest.tune_rf(X_train, X_test, y_train, y_test)
+    print("Fine-Tuned Model Results:", results_tuned)
 
 
 main()
