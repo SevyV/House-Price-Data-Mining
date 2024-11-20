@@ -97,10 +97,10 @@ def main():
     
     #Random Forest Results
     results_initial = RandomForest.random_forest(X_train, X_test, y_train, y_test)
-    print("Initial Model Results:", results_initial)
+    print("Initial RF Results:", results_initial)
     #Fine-tuning RF results
     results_tuned = RandomForest.tune_rf(X_train, X_test, y_train, y_test)
-    print("Fine-Tuned Model Results:", results_tuned)
+    print("Fine-Tuned RF Results:", results_tuned)
 
 
 main()
