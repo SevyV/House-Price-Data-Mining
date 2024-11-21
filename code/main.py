@@ -41,6 +41,7 @@ def main():
     # WE CAN JUST SPLIT TRAIN DATASET USING SKLEARNS TESET-TRAIN-SPLIT FUNCTION
     # test = pd.read_csv(test_path)
 
+    """ PRE-PROCESSING """
     preprocessor = Preprocessor()
     data = preprocessor.preprocess(data)
 
@@ -65,7 +66,7 @@ def main():
         X, y, test_size=0.2, random_state=10
     )
 
-    """"""
+    """ END PRE PROCESSING """
 
     """ CLUSTERING AND VISUALIZATION """
 
@@ -76,7 +77,7 @@ def main():
     agg.apply_agg(X)
     dbscan.apply_dbscan(X)
 
-    """"""
+    """ END CLUSTERING AND VISUALIZATION """
 
     """ OUTLIER DETECTION AND VISUALIZATION """
 
@@ -117,7 +118,7 @@ def main():
     plt.suptitle("Outlier Detection Visualization")
     plt.show()
 
-    """"""
+    """ END OUTLIER DETECTION AND VISUALIZATION """
 
     """ CLASSIFICIATION AND EVALUATION """
 
