@@ -1,16 +1,20 @@
-
 """
 Created on Thu Nov  7 20:27:24 2024
 
 @author: sevyveeken
 """
+
 # This will be the main file where we run everything
 import argparse
 import pandas as pd
 from sklearn.decomposition import PCA
 from preprocessing import Preprocessor
 from clustering import KMeansAlgo, DBSCANAlgo, HierchicalAlgo
+import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.ensemble import IsolationForest
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.covariance import EllipticEnvelope
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_selection import mutual_info_regression
 from sklearn.model_selection import train_test_split
@@ -61,7 +65,9 @@ def main():
         X, y, test_size=0.2, random_state=10
     )
 
-    # clustering and evaluation
+    """"""
+
+    """ CLUSTERING AND VISUALIZATION """
 
     kmeans = KMeansAlgo()
     dbscan = DBSCANAlgo()
@@ -70,9 +76,54 @@ def main():
     agg.apply_agg(X)
     dbscan.apply_dbscan(X)
 
-    # SVM Classification and Evaluation 
-    svm_classifier = SVC(kernel='linear', random_state=42)
-    svm_classifier.fit(X_train,y_train)
+    """"""
+
+    """ OUTLIER DETECTION AND VISUALIZATION """
+
+    iso_forest = IsolationForest()
+    outliers_iso = iso_forest.fit_predict(X)
+
+    lof = LocalOutlierFactor(n_neighbors=40)
+    outliers_lof = lof.fit_predict(X)
+
+    elliptic_env = EllipticEnvelope()
+    outliers_elliptic = elliptic_env.fit_predict(X)
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharex=True, sharey=True)
+
+    # Plot Isolation Forest results
+    axes[0].scatter(
+        X[:, 0], X[:, 1], c=(outliers_iso == 1), cmap="coolwarm", edgecolor="k", s=40
+    )
+    axes[0].set_title("Isolation Forest")
+
+    # Plot LOF results
+    axes[1].scatter(
+        X[:, 0], X[:, 1], c=(outliers_lof == 1), cmap="coolwarm", edgecolor="k", s=40
+    )
+    axes[1].set_title("Local Outlier Factor")
+
+    # Plot Elliptic Envelope results
+    axes[2].scatter(
+        X[:, 0],
+        X[:, 1],
+        c=(outliers_elliptic == 1),
+        cmap="coolwarm",
+        edgecolor="k",
+        s=40,
+    )
+    axes[2].set_title("Elliptic Envelope")
+
+    plt.suptitle("Outlier Detection Visualization")
+    plt.show()
+
+    """"""
+
+    """ CLASSIFICIATION AND EVALUATION """
+
+    # SVM Classification and Evaluation
+    svm_classifier = SVC(kernel="linear", random_state=42)
+    svm_classifier.fit(X_train, y_train)
     y_prediction = svm_classifier.predict(X_test)
 
     accuracy = accuracy_score(y_test, y_prediction)
@@ -80,12 +131,12 @@ def main():
     # accuracy score without feature selection 0.81
 
     print("Classification Report:")
-    print(classification_report(y_test,y_prediction))
+    print(classification_report(y_test, y_prediction))
     # macro avg's: precision 0.88, recall 0.67, f1-score 0.74, support 291 (idk wtf this is)
     # weighted avg's: precision 0.82, recall 0.81, f1-score 0.81, support 291
 
     print("Confusion Matrix")
-    print(confusion_matrix(y_test,y_prediction))
+    print(confusion_matrix(y_test, y_prediction))
     """
     Confusion Matrix
     [[  8  12   0   0   0]
@@ -94,11 +145,11 @@ def main():
     [  0   2   6  13   0]
     [  0   0   0   2   6]]    
     """
-    
-    #Random Forest Results
+
+    # Random Forest Results
     results_initial = RandomForest.random_forest(X_train, X_test, y_train, y_test)
     print("Initial RF Results:", results_initial)
-    #Fine-tuning RF results
+    # Fine-tuning RF results
     results_tuned = RandomForest.tune_rf(X_train, X_test, y_train, y_test)
     print("Fine-Tuned RF Results:", results_tuned)
 
