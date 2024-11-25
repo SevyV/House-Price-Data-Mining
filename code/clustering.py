@@ -17,8 +17,16 @@ from sklearn.neighbors import NearestNeighbors
 
 
 class ClusteringAlgorithm:
-    def apply_clustering(self, algo, data):
+    def __init__(self, data):
+        """
+        Initializes the ClusteringAlgorithm object with the dataset.
 
+        :param data: Data (features) for clustering
+        """
+        self.data = data
+
+    def apply_clustering(self, algo, data):
+        # Apply clustering algorithm and evaluate the results.
         if isinstance(algo, KMeans):
             labels = algo.fit_predict(data)
         elif isinstance(algo, DBSCAN):
@@ -28,6 +36,8 @@ class ClusteringAlgorithm:
 
         algo_name = algo.__class__.__name__ if hasattr(algo, "__class__") else str(algo)
         print(f"{algo_name}:")
+
+        # Evaluation metrics
         silhouette_score_ = silhouette_score(data, labels)
         calinski_harabasz_score_ = calinski_harabasz_score(data, labels)
         davies_bouldin_score_ = davies_bouldin_score(data, labels)
@@ -39,7 +49,7 @@ class ClusteringAlgorithm:
         self.visualize_clusters(algo, data, labels)
 
     def visualize_clusters(self, algo, X, labels):
-
+        # Visualize the clusters produced by the algorithm.
         plt.figure(figsize=(8, 6))
         scatter = plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="viridis")
 
@@ -50,29 +60,21 @@ class ClusteringAlgorithm:
         plt.ylabel("Principal Component 2")
 
         plt.colorbar(scatter, label="Cluster Label")
-
         plt.show()
 
-
-class KMeansAlgo(ClusteringAlgorithm):
-    def apply_kmeans(self, data):
+    def apply_kmeans(self):
         kmeans = KMeans(n_clusters=5, random_state=25)  # kmeans++ initialization
-        self.apply_clustering(kmeans, data)
+        self.apply_clustering(kmeans, self.data)
 
-
-class DBSCANAlgo(ClusteringAlgorithm):
-    def apply_dbscan(self, data):
+    def apply_dbscan(self):
         # k-distance plot for tuning hyperparameter
         k = 5
-
         neigh = NearestNeighbors(n_neighbors=k)
-
-        nbrs = neigh.fit(data)
-        distances, indices = nbrs.kneighbors(data)
+        nbrs = neigh.fit(self.data)
+        distances, indices = nbrs.kneighbors(self.data)
 
         # Sort the distances for plotting
         distances = np.sort(distances[:, k - 1], axis=0)
-
         plt.plot(distances)
         plt.title("k-distance graph")
         plt.xlabel("Data Points")
@@ -80,10 +82,19 @@ class DBSCANAlgo(ClusteringAlgorithm):
         plt.show()
 
         dbscan = DBSCAN(eps=0.9, min_samples=k)
-        self.apply_clustering(dbscan, data)
+        self.apply_clustering(dbscan, self.data)
 
-
-class HierchicalAlgo(ClusteringAlgorithm):
-    def apply_agg(self, data):
+    def apply_agg(self):
         agg = AgglomerativeClustering(n_clusters=5, linkage="ward")
-        self.apply_clustering(agg, data)
+        self.apply_clustering(agg, self.data)
+
+    def run_all(self):
+        # Run all clustering algorithms and visualize results.
+        print("Applying KMeans Clustering:")
+        self.apply_kmeans()
+
+        print("Applying DBSCAN Clustering:")
+        self.apply_dbscan()
+
+        print("Applying Agglomerative Clustering:")
+        self.apply_agg()
