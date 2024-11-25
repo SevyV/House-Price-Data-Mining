@@ -29,7 +29,6 @@ class Classification:
         self.y_test = y_test
 
     def knn_classification(self):
-        """k-NN classification and evaluation"""
         knn_classifier = KNeighborsClassifier(n_neighbors=5)
         knn_classifier.fit(self.X_train, self.y_train)
         y_prediction = knn_classifier.predict(self.X_test)
@@ -62,7 +61,6 @@ class Classification:
         plt.show()
 
     def svm_classification(self):
-        """SVM classification and evaluation"""
         svm_classifier = SVC(kernel="linear", random_state=42)
         svm_classifier.fit(self.X_train, self.y_train)
         y_prediction = svm_classifier.predict(self.X_test)
@@ -75,7 +73,6 @@ class Classification:
         print(confusion_matrix(self.y_test, y_prediction))
 
     def random_forest_classification(self):
-        """Random Forest classification and evaluation"""
         # Initial Random Forest results
         results_initial = RandomForest.random_forest(
             self.X_train, self.X_test, self.y_train, self.y_test
@@ -89,7 +86,7 @@ class Classification:
         print("Fine-Tuned RF Results:", results_tuned)
 
     def run_all_classifications(self):
-        """Run all classification methods."""
+        # Run all classification methods.
         self.knn_classification()
         self.svm_classification()
         self.random_forest_classification()
