@@ -94,6 +94,7 @@ class Preprocessor:
     
         # Define function to map SalePrice to PriceCategory manually
         def map_price_to_category(price):
+            '''
             if price < 100000:
                 return 0
             elif 100000 <= price < 200000:
@@ -101,6 +102,17 @@ class Preprocessor:
             elif 200000 <= price < 300000:
                 return 2
             elif 300000 <= price < 400000:
+                return 3
+            else:
+                return 4
+            '''
+            if price < 100000:
+                return 0
+            elif 100000 <= price < 150000:
+                return 1
+            elif 150000 <= price < 200000:
+                return 2
+            elif 200000 <= price < 300000:
                 return 3
             else:
                 return 4
