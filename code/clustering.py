@@ -39,8 +39,6 @@ class ClusteringAlgorithm:
         self.visualize_clusters(algo, data, labels)
 
     def visualize_clusters(self, algo, X, labels):
-        """pca = PCA(n_components=2)
-        X = pca.fit_transform(X)"""
 
         plt.figure(figsize=(8, 6))
         scatter = plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="viridis")
@@ -58,20 +56,7 @@ class ClusteringAlgorithm:
 
 class KMeansAlgo(ClusteringAlgorithm):
     def apply_kmeans(self, data):
-        k_range = range(2, 11)
-        top_k = 0
-        top_score = -1
-        for k in k_range:
-            kmeans = KMeans(
-                n_clusters=k, random_state=25
-            )  # random_state specified for clustering consistency
-            kmeans.fit(data)
-            score = silhouette_score(data, kmeans.labels_)
-            if score > top_score:
-                top_score = score
-                top_k = k
-        print("best k is: " + str(top_k))
-        kmeans = KMeans(n_clusters=top_k, random_state=25)  # kmeans++ initialization
+        kmeans = KMeans(n_clusters=5, random_state=25)  # kmeans++ initialization
         self.apply_clustering(kmeans, data)
 
 
@@ -94,24 +79,11 @@ class DBSCANAlgo(ClusteringAlgorithm):
         plt.ylabel(f"{k}-distance")
         plt.show()
 
-        dbscan = DBSCAN(eps=0.65, min_samples=k)
+        dbscan = DBSCAN(eps=0.9, min_samples=k)
         self.apply_clustering(dbscan, data)
 
 
 class HierchicalAlgo(ClusteringAlgorithm):
     def apply_agg(self, data):
-        k_range = range(2, 11)
-        top_k = 0
-        top_score = -1
-        for k in k_range:
-            agg = AgglomerativeClustering(
-                n_clusters=k
-            )  # random_state specified for clustering consistency
-            agg.fit(data)
-            score = silhouette_score(data, agg.labels_)
-            if score > top_score:
-                top_score = score
-                top_k = k
-        print("best k is: " + str(top_k))
-        agg = AgglomerativeClustering(n_clusters=top_k, linkage="ward")
+        agg = AgglomerativeClustering(n_clusters=5, linkage="ward")
         self.apply_clustering(agg, data)

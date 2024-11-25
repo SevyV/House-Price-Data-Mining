@@ -7,20 +7,26 @@ Created on Thu Nov  7 20:27:24 2024
 # This will be the main file where we run everything
 import argparse
 import pandas as pd
+from sklearn.calibration import label_binarize
 from sklearn.decomposition import PCA
 from preprocessing import Preprocessor
 from clustering import KMeansAlgo, DBSCANAlgo, HierchicalAlgo
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.ensemble import IsolationForest
-from sklearn.neighbors import LocalOutlierFactor
+from sklearn.neighbors import LocalOutlierFactor, KNeighborsClassifier
 from sklearn.covariance import EllipticEnvelope
-from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_selection import mutual_info_regression
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import (
+    accuracy_score,
+    auc,
+    classification_report,
+    confusion_matrix,
+    roc_curve,
+)
 from randomforest_finetuning import RandomForest
 
 
@@ -122,6 +128,41 @@ def main():
 
     """ CLASSIFICIATION AND EVALUATION """
 
+    # k-NN classification and evaluation
+    knn_classifier = KNeighborsClassifier(n_neighbors=5)
+    knn_classifier.fit(X_train, y_train)
+    y_prediction = knn_classifier.predict(X_test)
+    accuracy = accuracy_score(y_test, y_prediction)
+    print(f"Accuracy: {accuracy:.2f}")
+
+    print("k-NN Classification Report:")
+    print(classification_report(y_test, y_prediction))
+
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_prediction))
+
+    n_classes = 5
+    y_test_bin = label_binarize(y_test, classes=[0, 1, 2, 3, 4])
+    y_prob = knn_classifier.predict_proba(X_test)
+
+    plt.figure(figsize=(10, 8))
+
+    for i in range(n_classes):
+        fpr, tpr, _ = roc_curve(y_test_bin[:, i], y_prob[:, i])
+        roc_auc = auc(fpr, tpr)
+
+        plt.plot(fpr, tpr, lw=2, label=f"Class {i} (AUC = {roc_auc:.2f})")
+
+    plt.plot([0, 1], [0, 1], color="navy", lw=2, linestyle="--")
+
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title("Multi-class Receiver Operating Characteristic (ROC) Curve for k-NN")
+    plt.legend(loc="lower right")
+    plt.show()
+
     # SVM Classification and Evaluation
     svm_classifier = SVC(kernel="linear", random_state=42)
     svm_classifier.fit(X_train, y_train)
@@ -131,7 +172,7 @@ def main():
     print(f"Accuracy: {accuracy:.2f}")
     # accuracy score without feature selection 0.81
 
-    print("Classification Report:")
+    print(" SVM Classification Report:")
     print(classification_report(y_test, y_prediction))
     # macro avg's: precision 0.88, recall 0.67, f1-score 0.74, support 291 (idk wtf this is)
     # weighted avg's: precision 0.82, recall 0.81, f1-score 0.81, support 291
