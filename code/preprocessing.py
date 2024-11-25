@@ -12,6 +12,7 @@ from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from sklearn.linear_model import Lasso
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
+from collections import Counter
 
 
 class Preprocessor:
@@ -41,10 +42,33 @@ class Preprocessor:
         
         train = self.__hot_encode(train)
         train = self.__create_bin_labels(train)
+        
+        #data reduction
+        # Step 1: Count the number of data points for each label
+        label_counts = Counter(train['PriceCategory'])
+        print("Number of data points for each label:")
+        print(label_counts)
+        
+        sorted_labels = sorted(label_counts.items(), key=lambda x: x[1], reverse=True)
+        max_label, second_max_label = sorted_labels[0][0], sorted_labels[1][0]
+        
+        filtered_data = train[
+            ~train['PriceCategory'].isin([max_label, second_max_label])
+        ]  # Keep all other labels
+        
+        label1_data = train[train['PriceCategory'] == max_label]
+        label1_sample = label1_data.sample(n=350, random_state=42)
+        
+        label2_data = train[train['PriceCategory'] == second_max_label]
+        label2_sample = label2_data.sample(n=350, random_state=42)
+        
+        balanced_train = pd.concat([filtered_data, label1_sample, label2_sample])
+
+        
 
         # call feature select 
-        mi_selected_feat, mi_y = self.feature_selection(train)
-        lasso_selected_feat, lasso_y = self.lasso_feature_selection(train)
+        mi_selected_feat, mi_y = self.feature_selection(balanced_train)
+        lasso_selected_feat, lasso_y = self.lasso_feature_selection(balanced_train)
         
         mi_features = set(mi_selected_feat.columns)
         lasso_features = set(lasso_selected_feat.columns)
@@ -56,7 +80,7 @@ class Preprocessor:
         print("Common features selected by both methods: ", common_features)
 
         #test = self.__create_bin_labels(test)
-        return train #, test
+        return balanced_train #, test
         
     def lasso_feature_selection(self, train: pd.DataFrame, alpha=0.067):
         # 0.067

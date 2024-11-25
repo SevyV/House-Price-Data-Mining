@@ -33,7 +33,6 @@ class RandomForest:
                 
         # Fit the model on the entire training set
         rf.fit(X_train, y_train)
-    
         # Predict on the test set
         y_pred_test = rf.predict(X_test)
         y_pred_proba_test = rf.predict_proba(X_test)
@@ -116,8 +115,8 @@ class RandomForest:
 
         param_grid = {
             'n_estimators': [45, 50, 55],
-            'max_depth': [8, 10, 15],
-            'min_samples_split': [8, 10, 12],
+            'max_depth': [8, 7, 11],
+            'min_samples_split': [8, 10],
             'min_samples_leaf': [2, 6, 10]
         }
     
