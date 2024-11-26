@@ -11,7 +11,7 @@ from sklearn.metrics import (
 from sklearn.preprocessing import label_binarize
 from sklearn.ensemble import RandomForestClassifier
 from randomforest_finetuning import RandomForest
-
+import time 
 
 class Classification:
     def __init__(self, X_train, X_test, y_train, y_test):
@@ -29,9 +29,11 @@ class Classification:
         self.y_test = y_test
 
     def knn_classification(self):
+        start_time = time.time()
         knn_classifier = KNeighborsClassifier(n_neighbors=5)
         knn_classifier.fit(self.X_train, self.y_train)
         y_prediction = knn_classifier.predict(self.X_test)
+        end_time = time.time()
         accuracy = accuracy_score(self.y_test, y_prediction)
 
         print(f"Accuracy (k-NN): {accuracy:.2f}")
@@ -39,6 +41,7 @@ class Classification:
         print(classification_report(self.y_test, y_prediction))
         print("Confusion Matrix:")
         print(confusion_matrix(self.y_test, y_prediction))
+        print("k-NN time (seconds) : ", end_time - start_time)
 
         # Multi-class ROC Curve
         n_classes = 5
@@ -61,9 +64,11 @@ class Classification:
         plt.show()
 
     def svm_classification(self):
+        start_time = time.time()
         svm_classifier = SVC(kernel="linear", random_state=42)
         svm_classifier.fit(self.X_train, self.y_train)
         y_prediction = svm_classifier.predict(self.X_test)
+        end_time = time.time() 
 
         accuracy = accuracy_score(self.y_test, y_prediction)
         print(f"Accuracy (SVM): {accuracy:.2f}")
@@ -71,6 +76,7 @@ class Classification:
         print(classification_report(self.y_test, y_prediction))
         print("Confusion Matrix:")
         print(confusion_matrix(self.y_test, y_prediction))
+        print("SVM time (seconds) : ", end_time - start_time)
 
     def random_forest_classification(self):
         # Initial Random Forest results
