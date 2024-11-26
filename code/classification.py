@@ -18,8 +18,8 @@ class Classification:
         """
         Initializes the classification object with training and testing data.
 
-        :param X_train: Training features
-        :param X_test: Test features
+        :param X_train: Training data
+        :param X_test: Test data
         :param y_train: Training labels
         :param y_test: Test labels
         """

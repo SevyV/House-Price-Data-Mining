@@ -76,5 +76,5 @@ class OutlierDetection:
         plt.show()
 
     def run_all_outlier_detection(self):
-        # Run all outlier detection methods and plot the results."""
+        # Run all outlier detection methods and plot the results.
         self.plot_outlier_detection()

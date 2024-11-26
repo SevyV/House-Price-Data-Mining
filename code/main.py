@@ -57,13 +57,6 @@ def main():
     # X, y = preprocessor.feature_selection(train)
     # print(train.head())
 
-    # FOR pca use
-    # X, y = preprocessor.pca(data)
-    # print(X.head())
-
-    # SPLIT INTO TEST-TRAIN-SPLIT IF NECESSARY
-    # SEPERATE y and X IF NECESSARY
-    # Label columns is called "PriceCategory"
     X = data.drop(columns=["PriceCategory"])
     y = data["PriceCategory"]
 
@@ -80,10 +73,10 @@ def main():
 
     partOutlierDetection = OutlierDetection(X)
     partOutlierDetection.run_all_outlier_detection()
-    
+
     # to increased dimensions
-    #X, y = preprocessor.feature_selection(data, 10)
-    #X, y = preprocessor.pca(data, 10)
+    # X, y = preprocessor.feature_selection(data, 10)
+    # X, y = preprocessor.pca(data, 10)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=10
     )
