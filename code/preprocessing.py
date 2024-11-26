@@ -63,7 +63,7 @@ class Preprocessor:
         label2_sample = label2_data.sample(n=350, random_state=42)
         
         balanced_train = pd.concat([filtered_data, label1_sample, label2_sample])
-
+        balanced_train = balanced_train.reset_index(drop=True)
         
 
         # call feature select 
@@ -97,6 +97,7 @@ class Preprocessor:
         return x_train_selected_df, y_train
     
     def feature_selection(self, train, num_features=20):
+        '''
         #assumes data has already be preprocessed
         y_train = train['PriceCategory']
         X_train = train.drop(columns=['PriceCategory'])
@@ -109,7 +110,25 @@ class Preprocessor:
         #X_test_selected_df = test[selected_columns]
 
         return X_train_selected_df, y_train #, X_test_selected_df, selected_columns
+        '''
+        # Assumes data has already been preprocessed
+        y_train = train['PriceCategory']
+        X_train = train.drop(columns=['PriceCategory'])
         
+        selector = SelectKBest(mutual_info_classif, k=num_features)
+        selector.fit(X_train, y_train)
+        
+        selected_columns = X_train.columns[selector.get_support()]
+        X_train_selected_df = X_train.loc[:, selected_columns]  # Use loc for indexing consistency
+        
+        # Store selected columns for future use
+        self.selected_columns = selected_columns
+        
+        print(X_train_selected_df.head())
+        
+        return X_train_selected_df, y_train
+
+
     def __create_bin_labels(self, data):
         # Check for NaN values in 'SalePrice' and handle them if necessary
         if data['SalePrice'].isnull().sum() > 0:
@@ -153,7 +172,7 @@ class Preprocessor:
     
         return data
     
-    def pca(self, train, num_features=20):
+    def pca(self, train, num_features=16):
         y = train['PriceCategory'].copy()
         train.drop(columns=['PriceCategory'], inplace=True)
         X = train
