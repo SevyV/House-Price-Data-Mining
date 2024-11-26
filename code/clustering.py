@@ -16,17 +16,17 @@ import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 
 
-class ClusteringAlgorithm:
+class Clustering:
     def __init__(self, data):
         """
-        Initializes the ClusteringAlgorithm object with the dataset.
+        Initializes the Clustering object with the dataset.
 
         :param data: Data (features) for clustering
         """
         self.data = data
 
     def apply_clustering(self, algo, data):
-        # Apply clustering algorithm and evaluate the results.
+        # Apply 3 clustering algorithms
         if isinstance(algo, KMeans):
             labels = algo.fit_predict(data)
         elif isinstance(algo, DBSCAN):

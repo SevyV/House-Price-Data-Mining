@@ -86,7 +86,7 @@ class Classification:
         print("Fine-Tuned RF Results:", results_tuned)
 
     def run_all_classifications(self):
-        # Run all classification methods.
+        # Run all classification methods and evaluations
         self.knn_classification()
         self.svm_classification()
         self.random_forest_classification()

@@ -10,7 +10,7 @@ import pandas as pd
 from sklearn.calibration import label_binarize
 from sklearn.decomposition import PCA
 from preprocessing import Preprocessor
-from clustering import ClusteringAlgorithm
+from clustering import Clustering
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.ensemble import IsolationForest
@@ -44,9 +44,6 @@ def main():
     train_path, test_path = parse_args()
 
     data = pd.read_csv(train_path)
-    # NOT SURE IF WE NEED TO USE TEST SINCE THE CSV DOES NOT INCLUDE LABELS
-    # WE CAN JUST SPLIT TRAIN DATASET USING SKLEARNS TESET-TRAIN-SPLIT FUNCTION
-    # test = pd.read_csv(test_path)
 
     """ PRE-PROCESSING """
     preprocessor = Preprocessor()
@@ -68,7 +65,7 @@ def main():
 
     """ END PRE PROCESSING """
 
-    partClustering = ClusteringAlgorithm(X)
+    partClustering = Clustering(X)
     partClustering.run_all()
 
     partOutlierDetection = OutlierDetection(X)
