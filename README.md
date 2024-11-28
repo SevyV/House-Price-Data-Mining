@@ -1,9 +1,9 @@
 # CMPT 459 Final Project Report
 Authors: Jonathan Jung - 301459402, Seong Hyeon (Kevin) Park - 301396855, Severn (Sevy) Veeken - 301571252
-Dataset used for this project: [URL](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data)
+Dataset used for this project: (https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data)
 
 ## Dataset Choice
-For our project, we chose to use a [dataset]([URL](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data)) containing information about house prices. We sourced the dataset from kaggle. Initially, this dataset was for regression problems, so to modify it for classification use, we separated houses into classes based on the price they sold for. In other words, each class reflects a price range.
+For our project, we chose to use a [dataset](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data) containing information about house prices. We sourced the dataset from kaggle. Initially, this dataset was for regression problems, so to modify it for classification use, we separated houses into classes based on the price they sold for. In other words, each class reflects a price range.
 
 ## Data Preprocessing
 To preprocess the data, we first handled numerical features. There were only 3 numerical features that had missing values, Lot frontage, Masonry veneer area, and Year garage was built. For Lot frontage, the missing values were filled in with the medium of the column. For Masonry veneer area, there were very few missing values so rows with missing values for this feature were dropped. Finally, for Year garage was built, missing values were filled in with the year the corresponding house was built. After missing values were handled, all numerical features were standardized using StandardScaler as many different features had different ranges of values.
