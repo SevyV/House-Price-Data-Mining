@@ -39,14 +39,14 @@ And then comment in either one of these lines of code which are directly above t
 Once that is done just run the program as before, but this time the algorithms will be taking advantage of feature selection. 
 
 ## **Running the Code**
+In order to run the code you'll want need to run the main.py file directly. The dataset is included so if all of that is installed, no extra command line arguments are necessary to execute the code.
 ```bash
 python main.py
 
-In order to run the code you'll want need to run the main.py file directly. The dataset is included so if all of that is installed, no extra command line arguments are necessary to execute the code.
-However, if you have the data at a different location on your computer, you can manually input the file paths via the command line like so:
-``` bash
-python main.py --train "data path to train.csv" --test "data path to test.csv" 
-  
+
+
+
+
 
 
 
