@@ -36,6 +36,7 @@ def main():
     # Do feature selection if necessary before splitting train into X and y
     # for feature selection
     # X, y = preprocessor.feature_selection(train)
+    # X, y = preprocessor.lasso_feature_selection(train)
     # print(train.head())
 
     X = data.drop(columns=["PriceCategory"])
