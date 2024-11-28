@@ -34,7 +34,7 @@ class Classification:
 
     def knn_classification(self):
         start_time = time.time()
-        knn_classifier = KNeighborsClassifier(n_neighbors=5)
+        knn_classifier = KNeighborsClassifier()
 
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=25)
         cv_scores = cross_val_score(
