@@ -23,3 +23,5 @@ In order to run the code you'll want need to run the main.py file directly. The 
 However, if you have the data at a different location on your computer, you can manually input the file paths via the command line like so: 
 
 ### Example
+
+./main.py --train "data path to train.csv" --test "data path to test.csv" 
