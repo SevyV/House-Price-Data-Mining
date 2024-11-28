@@ -6,7 +6,7 @@ Created on Tue Nov 19 15:11:30 2024
 @author: sevyveeken
 """
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_score
+from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_score, cross_val_predict
 from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay, 
                              accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc, classification_report)
 from sklearn.preprocessing import label_binarize
@@ -31,6 +31,21 @@ class RandomForest:
         
         print(f"Mean CV Score: {mean_cv_score:.4f}")
         print(f"Standard Deviation of CV Scores: {std_cv_score:.4f}")
+        
+
+        cv_predictions = cross_val_predict(rf, X_train, y_train, cv=cv)
+        
+        # Calculate precision, recall, and F1 score
+        precision = precision_score(y_train, cv_predictions, average='weighted')  # 'weighted' for multi-class classification
+        recall = recall_score(y_train, cv_predictions, average='weighted')
+        f1 = f1_score(y_train, cv_predictions, average='weighted')
+        
+        # Print results
+        print(f"Mean CV Accuracy: {mean_cv_score:.4f}")
+        print(f"Standard Deviation of CV Accuracy: {std_cv_score:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"F1 Score: {f1:.4f}")
            
         # Fit the model on the entire training set
         rf.fit(X_train, y_train)
