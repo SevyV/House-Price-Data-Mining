@@ -54,12 +54,8 @@ Grid search was used to for hyperparameter tuning a random forest classifier. To
 
 ![table](./report_images/ht_table.jpg)
 
-<div style="display: inline-block; margin-right: 10px;">
-    <img src="./report_images/ht_roc.jpg" width="50%">
-</div>
-<div style="display: inline-block;">
-    <img src=./report_images/ht_cf.jpg" width="50%">
-</div>
+<img src="./report_images/ht_roc.png" width="30%" style="float: left; margin-right: 10px;">
+<img src="./report_images/ht_cf.png" width="30%" style="float: left;">
 
 An increase in accuracy indicates a general improvement of model performance. Similarly, an increase in precision and recall reflect fewer false positive and false negative predictions respectively. Additionally, an increased F1 score signifies an improved balance between precision and recall. Hyperparameter tuning the Random Forest model resulted in relatively small but consistent improvements across all metrics, reflecting better overall model performance and reliability. These enhancements suggest that hyperparameter tuning has successfully optimized (by a small amount) the model for better generalization and prediction accuracy. Grid Search can be both time and memory constrained, thus if we had more memory or allowed the Grid search to run for a very long time there would most likely be better results.
 
