@@ -100,6 +100,12 @@ Random Forest:
 
 SVM:
 
+table
+
+table
+
+As can be observed in the above table, the Random Forest classifier out-performed both the k-NN and SVM classifiers. This is likely because Random forest is an ensemble classifier and thus it is more robust to overfitting and also is better at handling imbalanced data. Additionally, the Random Forest classifier is better at handling high dimensional data as it can inherently compute feature importance, since it can prioritize the most relevant features for making predictions. This can result in better performance, especially with complex data and if some features are noisy or irrelevant. In contrast, k-NN and SVM do not have any ‘built-in’ way of computing feature importance. k-NN performs less well with imbalanced data because it considers the majority class is the nearest vicinity which will be biased if the data is imbalanced. k-NN also struggles with high-dimensional dense data, since there are a lot of data points within the same distance as one another. SVM can also be sensitive to unbalanced data and is highly dependent on hyperparameter tuning so if parameters are not well tuned it may not always perform well.
+
 
 ## Hyperparameter Tuning
 Grid search was used to for hyperparameter tuning a random forest classifier. To reduce the amount of time it took to run, initially some random values were chosen for each parameter, but each of the following times the range of hyperparameter values to be tested were closer to the previous best hyperparameter found by the previous grid search.
