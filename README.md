@@ -120,6 +120,10 @@ Random Forest:
 
 SVM:
 
+![plot](./report_images/svm_roc.png)
+
+![plot](./report_images/svm_cm.png)
+
 ![table](./report_images/classification/h_table.jpg)
 
 ![table](./report_images/classification/cv_table.jpg)
