@@ -12,11 +12,13 @@ from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay,
 from sklearn.preprocessing import label_binarize
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 class RandomForest:
     def random_forest(X_train, X_test, y_train, y_test):
         # Initialize the Random Forest Classifier
-        rf = RandomForestClassifier(random_state=80)
+        start_time = time.time()
+        rf = RandomForestClassifier(random_state=42)
         
         # Perform 10-fold cross-validation on the training data (only for training/fit process)
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
@@ -30,12 +32,14 @@ class RandomForest:
         
         print(f"Mean CV Score: {mean_cv_score:.4f}")
         print(f"Standard Deviation of CV Scores: {std_cv_score:.4f}")
-                
+           
         # Fit the model on the entire training set
         rf.fit(X_train, y_train)
         # Predict on the test set
         y_pred_test = rf.predict(X_test)
         y_pred_proba_test = rf.predict_proba(X_test)
+        end_time = time.time()    
+        print("RF time (seconds) : ", end_time - start_time)
         
         print("Classification report RF:" ,classification_report(y_test, y_pred_test))
         
@@ -49,22 +53,6 @@ class RandomForest:
         cm = confusion_matrix(y_test, y_pred_test)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(y_train))
         
-        '''
-        # ROC curve for multiclass classification (on test data)
-        fig_roc, ax_roc = plt.subplots(figsize=(8, 6))
-        for i in range(len(np.unique(y_test))):  # Loop over the number of classes
-            fpr, tpr, _ = roc_curve((y_test == i).astype(int), y_pred_proba_test[:, i])
-            ax_roc.plot(fpr, tpr, lw=2, label=f"Class {i}")
-        
-        # Add diagonal line for random guessing
-        ax_roc.plot([0, 1], [0, 1], color="gray", linestyle="--")
-        ax_roc.set_xlabel("False Positive Rate")
-        ax_roc.set_ylabel("True Positive Rate")
-        ax_roc.set_title("ROC Curves (Multiclass) on Test Data")
-        ax_roc.legend(loc="lower right")
-        ax_roc.grid(True)
-        plt.show()
-        '''
         n_classes = 5
         
         # Binarize test labels

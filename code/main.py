@@ -70,7 +70,7 @@ def main():
     partOutlierDetection.run_all_outlier_detection()
 
     # to increased dimensions
-    # X, y = preprocessor.feature_selection(data, 10)
+    # X, y = preprocessor.feature_selection(data)
     # X, y = preprocessor.pca(data, 10)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=10
