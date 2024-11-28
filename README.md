@@ -106,6 +106,6 @@ An increase in accuracy indicates a general improvement of model performance. Si
 Some insights that were gained from performing these analyses was that the majority of the properties sold were within the range of $100,000 to $200,000. This fact was further compounded by the density of the data when clustered. From this we can infer that the majority of prospective property buyers prefer properties within that price range, which makes sense since that is a comparatively lower price range compared to the others. 
 
 ## Conclusion
-Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalance data, feature engineering, and considering transfer learning for feature extraction, all of which could further refine model performance.
+Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalanced data, feature engineering, and considering transfer learning for feature extraction, all of which could further refine model performance.
 
 
