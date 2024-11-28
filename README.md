@@ -115,9 +115,10 @@ An increase in accuracy indicates a general improvement of model performance. Si
 
 ## Insights and Lessons Learned
 
-Some insights that were gained from performing these analyses was that the majority of the properties sold were within the range of $100,000 to $200,000. This fact was further compounded by the density of the data when clustered. From this we can infer that the majority of prospective property buyers prefer properties within that price range, which makes sense since that is a comparatively lower price range compared to the others. 
+Some insights that were gained from performing these analyses was that the majority of the properties sold were within the range of $100,000 to $200,000. This fact was further compounded by the density of the data when clustered. From this we can infer that the majority of prospective property buyers prefer properties within that price range, which makes sense since that is a comparatively lower price range compared to the others. This suggests that real estate agents and developers may want to consider focusing their marketing and inventory on homes priced between $100,000 and $200,000 to cater to the majority of buyers in this range.
+
 
 ## Conclusion
-Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalanced data, feature engineering, and considering transfer learning for feature extraction, all of which could further refine model performance.
+Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalanced data, feature engineering, and considering transfer learning for feature extraction, all of which could further refine model performance. Furthermore, we would have liked to perform hyperparameter tuning for clustering, outlier-detection, and the other classification algorithms with anticipation of better results. Specifically for clustering, other distance metrics can be explored that are better suited to our high-dimensional dataset.
 
 
