@@ -58,6 +58,19 @@ One of the biggest potential challenges with our current dataset is the price ca
 To remedy this we adjusted the ranges to create a more even distribution between all the categories and also performed data reduction on certain categories that contained a lot of the data.
 
 ## Feature Selection
+Two feature selection techniques were used to determine which features have the most significance. The two methods being mutual information and Lasso regression. Both methods yield different selected features so in order to determine the most consistently selected features we placed all the features selected into two sets and computed the intersection between them. This computes the features selected by both techniques. Some of the features immediately have an intuitive importance when performing classification, such as OverallQual, LotArea, GarageArea, and YearRemodAdd but the others don’t have as clear of an importance. Some of the few aforementioned features were examined in the exploratory data analysis section and a correlation between the price categories was illustrated. The others have an intuitive connection as well such as GarageArea, the higher that value, the more likely the property has a higher value. MSSubClass is an interesting case since it's essentially the BldgType feature (representing the type of building) with more detailed categories. Through this it is reasonable to infer that the building type would have a great influence on the price category, this is further compounded by the fact that its related feature BldgType had a noticeable correlation as well.
+
+The reason why these selected features have an impact on the classification task is that there is generally a direct correlation between them and the PriceCategory feature we’re trying to predict. They all directly relate to the specifications or the quality of the property, which are two major factors in determining the price. Obviously properties with higher quality labels will have a correspondence with a higher sale price, and the larger certain features of the house such as the total square footage of the lot or the size of the garage will correlate to higher prices, since those are seen as desirable features. Thanks to these correlations, this should not only increase efficiency by reducing the dimensionality of the data, but reduce the data into its more valuable features thus making the prospect of accurate predictions more attainable.  
+
+Performance Comparisons:
+Running the SVM algorithm with and without feature selection methods produced the following results: 
+![table](./report_images/clustering/fs_svm.PNG)
+
+Running the k-NN algorithm with and without the various feature selection methods and was able to produce the following results:
+![table](./report_images/clustering/fs_knn.PNG)
+
+Running the Random Forest algorithm with and without feature selection produced the following table of results: 
+![table](./report_images/clustering/fs_rf.PNG)
 
 ## Clustering
 Using clustering for visualization helps in identifying the structure of natural groupings in the data. Before clustering, we PCA-reduced the data to 2 to account for the curse of dimensionality as euclidean distance between points was used in all of the chosen clustering algorithms. In high-dimensional data, the euclidean distance becomes less informative compared to working in a 2D space. Through PCA-reduction, noise was removed in our 80-feature dataset while retaining the most meaningful features. This resulted in better average performance across the 3 clustering algorithms applied to the dataset.
