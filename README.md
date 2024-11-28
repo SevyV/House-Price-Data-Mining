@@ -55,7 +55,7 @@ A heatmap pertaining to the Average property sale price mapped against the overa
 One of the biggest potential challenges with our current dataset is the price category feature. After plotting a histogram of the distribution between each category, it became clear that price category 1 pertaining to houses within the price range of $100,000 to $200,000 had a disproportionately larger number of samples compared to the other categories. 
 
 ![plot](./report_images/eda_price_category_distribution.png)
-To remedy this we plan to adjust the ranges to create a more even distribution between all the categories.
+To remedy this we adjustes the ranges to create a more even distribution between all the categories and also performed data reduction on certain categories that contained a lot of the data.
 
 ## Feature Selection
 
