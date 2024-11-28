@@ -124,6 +124,16 @@ class Classification:
             f"Mean accuracy from cross-validation: {cv_scores.mean():.2f} ± {cv_scores.std():.2f}"
         )
 
+        cv_predictions = cross_val_predict(svm_classifier, self.X_train, self.y_train, cv=cv)
+
+        precision = precision_score(self.y_train, cv_predictions, average='weighted')  # 'weighted' for multi-class classification
+        recall = recall_score(self.y_train, cv_predictions, average='weighted')
+        f1 = f1_score(self.y_train, cv_predictions, average='weighted')
+
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"F1 Score: {f1:.4f}")
+
         svm_classifier.fit(self.X_train, self.y_train)
         y_prediction = svm_classifier.predict(self.X_test)
         end_time = time.time()
@@ -134,11 +144,9 @@ class Classification:
         print(classification_report(self.y_test, y_prediction))
         print("Confusion Matrix:")
         # print(confusion_matrix(self.y_test, y_prediction))
-        cm = confusion_matrix(self.y_test, y_prediction)
-        disp = ConfusionMatrixDisplay(
-            confusion_matrix=cm, display_labels=np.unique(self.y_train)
-        )
-        disp.plot(cmap=plt.cm.Blues)
+        cm = confusion_matrix(self.y_test,y_prediction)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(self.y_train))
+        disp.plot(cmap=plt.cm.Blues)        
         print("SVM time (seconds) : ", end_time - start_time)
 
         # Multi-class ROC Curve
