@@ -16,7 +16,7 @@ import numpy as np
 class RandomForest:
     def random_forest(X_train, X_test, y_train, y_test):
         # Initialize the Random Forest Classifier
-        rf = RandomForestClassifier(random_state=42)
+        rf = RandomForestClassifier(random_state=80)
         
         # Perform 10-fold cross-validation on the training data (only for training/fit process)
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
@@ -114,10 +114,12 @@ class RandomForest:
         rf = RandomForestClassifier(random_state=42)
 
         param_grid = {
-            'n_estimators': [100, 150, 200, 250, 300],
-            'max_depth': [8, 10, 15, 18],
-            'min_samples_split': [4, 8, 10, 12],
-            'min_samples_leaf': [2, 4 , 6]
+            'n_estimators': [140, 145, 150, 155],
+            'max_depth': [8, 9, 10, 11, 12],
+            'max_features': ['sqrt'],
+            'min_samples_split': [2, 3, 4, 5],
+            'min_samples_leaf': [2, 3, 4, 6],
+            'bootstrap': [True]
         }
     
         grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2, scoring='accuracy')
