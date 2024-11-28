@@ -74,13 +74,15 @@ Grid search was used to for hyperparameter tuning a random forest classifier. To
 
 ![table](./report_images/ht_table.jpg)
 <div style="display: flex;">
-  <img src="./report_images/ht_roc.png" width="30%" margin-right: 10px;">
-  <img src="./report_images/ht_cf.png" width="30%"">
+  <img src="./report_images/ht_roc.png" width="40%" margin-right: 10px;">
+  <img src="./report_images/ht_cf.png" width="40%"">
 </div> 
 
 An increase in accuracy indicates a general improvement of model performance. Similarly, an increase in precision and recall reflect fewer false positive and false negative predictions respectively. Additionally, an increased F1 score signifies an improved balance between precision and recall. Hyperparameter tuning the Random Forest model resulted in relatively small but consistent improvements across all metrics, reflecting better overall model performance and reliability. These enhancements suggest that hyperparameter tuning has successfully optimized (by a small amount) the model for better generalization and prediction accuracy. Grid Search can be both time and memory constrained, thus if we had more memory or allowed the Grid search to run for a very long time there would most likely be better results.
 
 ## Insights and Lessons Learned
+
+Some insights that were gained from performing these analyses was that the majority of the properties sold were within the range of $100,000 to $200,000. This fact was further compounded by the density of the data when clustered. From this we can infer that the majority of prospective property buyers prefer properties within that price range, which makes sense since that is a comparatively lower price range compared to the others. 
 
 ## Conclusion
 Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalance data, feature engineering, and considering transfer learning for feature extraction, all of which could further refine model performance.
