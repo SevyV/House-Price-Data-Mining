@@ -105,7 +105,7 @@ Accuracy (k-NN): 0.69
 ![table](./report_images/classification/classification_report.png)
 
 
-k-NN time (seconds) :  0.06676197052001953
+k-NN time (seconds) :  0.11883211135864258
 
 ## Hyperparameter Tuning
 Grid search was used to for hyperparameter tuning a random forest classifier. To reduce the amount of time it took to run, initially some random values were chosen for each parameter, but each of the following times the range of hyperparameter values to be tested were closer to the previous best hyperparameter found by the previous grid search.

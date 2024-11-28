@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.calibration import cross_val_predict
 from sklearn.model_selection import StratifiedKFold, cross_val_score, cross_validate
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -47,29 +48,30 @@ class Classification:
         roc_auc_scorer = make_scorer(roc_auc_score)
 
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=25)
-        cv_results = cross_validate(
-            knn_classifier,
-            self.X_train,
-            self.y_train,
-            cv=cv,
-            scoring={
-                "accuracy": "accuracy",
-                "precision": precision_scorer,
-                "recall": recall_scorer,
-                "f1": f1_scorer,
-                "roc_auc": roc_auc_scorer,
-            },
-            return_train_score=False,
+        cv_scores = cross_val_score(
+            knn_classifier, self.X_train, self.y_train, cv=cv, scoring="accuracy"
+        )
+        mean_cv_score = np.mean(cv_scores)
+        std_cv_score = np.std(cv_scores)
+
+        print(f"Mean CV Score: {mean_cv_score:.4f}")
+        print(f"Standard Deviation of CV Scores: {std_cv_score:.4f}")
+
+        cv_predictions = cross_val_predict(
+            knn_classifier, self.X_train, self.y_train, cv=cv
         )
 
-        print("Cross-validation results:")
+        precision = precision_score(
+            self.y_train, cv_predictions, average="weighted"
+        )  # 'weighted' for multi-class classification
+        recall = recall_score(self.y_train, cv_predictions, average="weighted")
+        f1 = f1_score(self.y_train, cv_predictions, average="weighted")
 
-        print("Cross-validation results on training set:")
-        print(f"Accuracy: {cv_results['test_accuracy']}")
-        print(f"Precision: {cv_results['test_precision']}")
-        print(f"Recall: {cv_results['test_recall']}")
-        print(f"F1-Score: {cv_results['test_f1']}")
-        print(f"AUC-ROC: {cv_results['test_roc_auc']}")
+        print(f"Mean CV Accuracy: {mean_cv_score:.4f}")
+        print(f"Standard Deviation of CV Accuracy: {std_cv_score:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"F1 Score: {f1:.4f}")
 
         knn_classifier.fit(self.X_train, self.y_train)
         y_prediction = knn_classifier.predict(self.X_test)
@@ -132,9 +134,11 @@ class Classification:
         print(classification_report(self.y_test, y_prediction))
         print("Confusion Matrix:")
         # print(confusion_matrix(self.y_test, y_prediction))
-        cm = confusion_matrix(self.y_test,y_prediction)
-        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(self.y_train))
-        disp.plot(cmap=plt.cm.Blues)        
+        cm = confusion_matrix(self.y_test, y_prediction)
+        disp = ConfusionMatrixDisplay(
+            confusion_matrix=cm, display_labels=np.unique(self.y_train)
+        )
+        disp.plot(cmap=plt.cm.Blues)
         print("SVM time (seconds) : ", end_time - start_time)
 
         # Multi-class ROC Curve
