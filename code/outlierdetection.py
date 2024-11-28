@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.covariance import EllipticEnvelope
@@ -21,20 +22,29 @@ class OutlierDetection:
 
     def local_outlier_factor(self):
         # Perform Local Outlier Factor (LOF) outlier detection
-        lof = LocalOutlierFactor(n_neighbors=40)
+        lof = LocalOutlierFactor(n_neighbors=50)
         outliers_lof = lof.fit_predict(self.X)
         return outliers_lof
 
     def elliptic_envelope(self):
         # Perform Elliptic Envelope outlier detection
-        elliptic_env = EllipticEnvelope()
+        elliptic_env = EllipticEnvelope()  # contamination=0.01
         outliers_elliptic = elliptic_env.fit_predict(self.X)
         return outliers_elliptic
 
+    def apply_pca(self):
+        pca = PCA(n_components=2)
+        X_pca = pca.fit_transform(self.X)
+        return X_pca
+
     def plot_outlier_detection(self):
         # Plot the visualization of all outlier detection methods
+
         outliers_iso = self.isolation_forest()
         outliers_lof = self.local_outlier_factor()
+
+        self.X = self.apply_pca()
+
         outliers_elliptic = self.elliptic_envelope()
 
         fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharex=True, sharey=True)
@@ -72,7 +82,7 @@ class OutlierDetection:
         )
         axes[2].set_title("Elliptic Envelope")
 
-        plt.suptitle("Outlier Detection Visualization")
+        plt.suptitle("Outlier Detection Visualization after PCA")
         plt.show()
 
     def run_all_outlier_detection(self):

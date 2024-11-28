@@ -20,6 +20,7 @@ from sklearn.feature_selection import mutual_info_regression
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
+from scipy.stats import skew, kurtosis
 from sklearn.metrics import (
     accuracy_score,
     auc,
@@ -58,14 +59,11 @@ def main():
     y = data["PriceCategory"]
 
     pca = PCA(n_components=2)
-    X = pca.fit_transform(X)
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=10
-    )
+    X_2 = pca.fit_transform(X)
 
     """ END PRE PROCESSING """
 
-    partClustering = Clustering(X)
+    partClustering = Clustering(X_2)
     partClustering.run_all()
 
     partOutlierDetection = OutlierDetection(X)
@@ -83,5 +81,3 @@ def main():
 
 
 main()
-
-# python3 main.py --train /Users/kevinpark/Desktop/459/project/House-Price-Data-Mining/code/data/train.csv --test /Users/kevinpark/Desktop/459/project/House-Price-Data-Mining/code/data/test.csv

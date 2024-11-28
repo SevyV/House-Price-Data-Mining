@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import (
@@ -11,7 +12,8 @@ from sklearn.metrics import (
 from sklearn.preprocessing import label_binarize
 from sklearn.ensemble import RandomForestClassifier
 from randomforest_finetuning import RandomForest
-import time 
+import time
+
 
 class Classification:
     def __init__(self, X_train, X_test, y_train, y_test):
@@ -31,9 +33,21 @@ class Classification:
     def knn_classification(self):
         start_time = time.time()
         knn_classifier = KNeighborsClassifier(n_neighbors=5)
+
+        cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=25)
+        cv_scores = cross_val_score(
+            knn_classifier, self.X_train, self.y_train, cv=cv, scoring="accuracy"
+        )
+
+        print(f"Cross-validation accuracy scores: {cv_scores}")
+        print(
+            f"Mean accuracy from cross-validation: {cv_scores.mean():.2f} ± {cv_scores.std():.2f}"
+        )
+
         knn_classifier.fit(self.X_train, self.y_train)
         y_prediction = knn_classifier.predict(self.X_test)
         end_time = time.time()
+
         accuracy = accuracy_score(self.y_test, y_prediction)
 
         print(f"Accuracy (k-NN): {accuracy:.2f}")
@@ -68,7 +82,7 @@ class Classification:
         svm_classifier = SVC(kernel="linear", random_state=42)
         svm_classifier.fit(self.X_train, self.y_train)
         y_prediction = svm_classifier.predict(self.X_test)
-        end_time = time.time() 
+        end_time = time.time()
 
         accuracy = accuracy_score(self.y_test, y_prediction)
         print(f"Accuracy (SVM): {accuracy:.2f}")

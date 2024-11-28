@@ -50,6 +50,8 @@ class Clustering:
 
     def visualize_clusters(self, algo, X, labels):
         # Visualize the clusters produced by the algorithm.
+        """pca = PCA(n_components=2)
+        X = pca.fit_transform(X)"""
         plt.figure(figsize=(8, 6))
         scatter = plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="viridis")
 
@@ -68,7 +70,7 @@ class Clustering:
 
     def apply_dbscan(self):
         # k-distance plot for tuning hyperparameter
-        k = 5
+        k = 2
         neigh = NearestNeighbors(n_neighbors=k)
         nbrs = neigh.fit(self.data)
         distances, indices = nbrs.kneighbors(self.data)
@@ -81,7 +83,7 @@ class Clustering:
         plt.ylabel(f"{k}-distance")
         plt.show()
 
-        dbscan = DBSCAN(eps=0.9, min_samples=k)
+        dbscan = DBSCAN(eps=0.7, min_samples=3)
         self.apply_clustering(dbscan, self.data)
 
     def apply_agg(self):
