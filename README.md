@@ -1,6 +1,7 @@
 # CMPT 459 Final Project Report
 Authors: Jonathan Jung - 301459402, Seong Hyeon (Kevin) Park - 301396855, Severn (Sevy) Veeken - 301571252
-Dataset used for this project: (https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data)
+
+Dataset used for this project: https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data
 
 ## Dataset Choice
 For our project, we chose to use a [dataset](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data) containing information about house prices. We sourced the dataset from kaggle. Initially, this dataset was for regression problems, so to modify it for classification use, we separated houses into classes based on the price they sold for. In other words, each class reflects a price range.
