@@ -1,1 +1,7 @@
-#Instructions to run  code
+### Installations
+
+### Usage
+
+### Running the Code
+
+### Example
