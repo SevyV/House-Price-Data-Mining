@@ -113,17 +113,16 @@ ROC curve and confusion matrix:
 ![plot](./report_images/classification/knn_roc_conf.png)
 
 Random Forest:
-![table](./report_images/ht_table.jpg)
 <div style="display: flex;">
-  <img src="./report_images/classification/rf_roc.png" width="50%" margin-right: 10px;">
-  <img src="./report_images/classification/rf_cf.png" width="50%"">
+  <img src="./report_images/classification/rf_roc.png" width="40%" margin-right: 10px;">
+  <img src="./report_images/classification/rf_cf.png" width="40%"">
 </div>
 
 SVM:
 
-![table](./report_images/classification/h_table.jpeg)
+![table](./report_images/classification/h_table.jpg)
 
-![table](./report_images/classification/cv_table.jpeg)
+![table](./report_images/classification/cv_table.jpg)
 
 As can be observed in the above table, the Random Forest classifier out-performed both the k-NN and SVM classifiers. This is likely because Random forest is an ensemble classifier and thus it is more robust to overfitting and also is better at handling imbalanced data. Additionally, the Random Forest classifier is better at handling high dimensional data as it can inherently compute feature importance, since it can prioritize the most relevant features for making predictions. This can result in better performance, especially with complex data and if some features are noisy or irrelevant. In contrast, k-NN and SVM do not have any ‘built-in’ way of computing feature importance. k-NN performs less well with imbalanced data because it considers the majority class is the nearest vicinity which will be biased if the data is imbalanced. k-NN also struggles with high-dimensional dense data, since there are a lot of data points within the same distance as one another. SVM can also be sensitive to unbalanced data and is highly dependent on hyperparameter tuning so if parameters are not well tuned it may not always perform well.
 
@@ -133,8 +132,8 @@ Grid search was used to for hyperparameter tuning a random forest classifier. To
 
 ![table](./report_images/ht_table.jpg)
 <div style="display: flex;">
-  <img src="./report_images/ht_roc.png" width="50%" margin-right: 10px;">
-  <img src="./report_images/ht_cf.png" width="50%"">
+  <img src="./report_images/ht_roc.png" width="40%" margin-right: 10px;">
+  <img src="./report_images/ht_cf.png" width="40%"">
 </div> 
 
 An increase in accuracy indicates a general improvement of model performance. Similarly, an increase in precision and recall reflect fewer false positive and false negative predictions respectively. Additionally, an increased F1 score signifies an improved balance between precision and recall. Hyperparameter tuning the Random Forest model resulted in relatively small but consistent improvements across all metrics, reflecting better overall model performance and reliability. These enhancements suggest that hyperparameter tuning has successfully optimized (by a small amount) the model for better generalization and prediction accuracy. Grid Search can be both time and memory constrained, thus if we had more memory or allowed the Grid search to run for a very long time there would most likely be better results.
