@@ -119,10 +119,10 @@ Random Forest:
 </div>
 
 SVM:
-
-![plot](./report_images/svm_roc.png)
-
-![plot](./report_images/svm_cm.png)
+<div style="display: flex;">
+  <img src="./report_images/svm_roc.png" width="40%" margin-right: 10px;">
+  <img src="./report_images/svm_cm.png" width="40%"">
+</div>
 
 ![table](./report_images/classification/h_table.jpg)
 
