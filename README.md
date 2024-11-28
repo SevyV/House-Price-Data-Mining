@@ -66,6 +66,27 @@ Due to the dataset containing data points that are packed closely together in a 
 The Silhouette Score of -0.002 is very low, indicating that the clustering is poor in a sense where clusters are too close to each other and the data points in one cluster are not well-separated from other clusters. The Calinski-Harabasz Score of 12.599 (low, sub-optimal) and Davies-Bouldin Score of 2.278 (high, sub-optimal) support this claim.
 
 ## Outlier Detection
+Outlier detection helps in cleaning the data to perform better in classification and regression models. Outliers are values that aren’t consistent with the rest of the data, extremes that don’t belong. PCA-reduction to 2 dimensions was performed prior to outlier detection as data points are easier to visualize and comprehend. Before discussing the results, it is important to note that the data points in this dataset are quite densely packed with only a few data points outside of the “main cluster”.
+
+Isolation Forest, Local Outlier Factor (LOF), and Elliptic Envelope outlier detection algorithms were applied to our data.
+
+Plot of data points (PCA-reduced to 2D) and default parameters for each outlier detection algorithm:
+![plot](./report_images/outlier_detection/pca_reduced_plot.png)
+
+Isolation Forest:
+This algorithm considered too many points as outliers when PCA was reduced to 2. Since this algorithm is fairly robust to high dimensional data, we tried running it with the original dataset and got better results, even with the default parameters.
+![plot](./report_images/outlier_detection/isolation_forest.png)
+
+Local Outlier Factor:
+This algorithm presented reasonable results with PCA-reduction to 2 dimensions but was re-ran with the original features for validity. With 80 original features, the 2D visualization is harder to understand but it does seem to have decreased sensitivity to some of the points declared as outliers in the run with PCA-reduction to 2. 
+![plot](./report_images/outlier_detection/lof.png)
+
+Elliptic Envelope:
+This algorithm also considered too many points as outliers when run on our data with PCA-reduction to 2. Without PCA-reduction, the algorithm did not finish executing within a reasonable time frame. With PCA-reduction to 15 features, the visualization is not clear for understanding (left plot). With 2 dimensions and contamination set to 0.01 for the algorithm (1% of the data points are known to be outliers - an observation from previous results), a much clearer result was obtained (right plot).
+![plot](./report_images/outlier_detection/elliptic_envelope.png)
+
+Verdict
+Even with the few observed outliers in the visualizations, we have decided not to explicitly remove them. They represent a small portion of the data and have the possibility of being valid data points with extreme, but valid values for the features. In the case of house data, an outlier could potentially be a house with an extremely high number of rooms. Without a higher degree of confidence, it would be unreasonable to remove such data. 
 
 ## Classification
 
