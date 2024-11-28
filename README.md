@@ -104,6 +104,7 @@ Accuracy (k-NN): 0.69
 
 ![table](./report_images/classification/classification_report.png)
 
+
 k-NN time (seconds) :  0.06676197052001953
 
 ## Hyperparameter Tuning

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.model_selection import StratifiedKFold, cross_val_score, cross_validate
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import (
@@ -8,6 +8,11 @@ from sklearn.metrics import (
     accuracy_score,
     classification_report,
     confusion_matrix,
+    f1_score,
+    make_scorer,
+    precision_score,
+    recall_score,
+    roc_auc_score,
     roc_curve,
     auc,
 )
@@ -36,15 +41,35 @@ class Classification:
         start_time = time.time()
         knn_classifier = KNeighborsClassifier()
 
+        precision_scorer = make_scorer(precision_score, zero_division=1)
+        recall_scorer = make_scorer(recall_score, zero_division=1)
+        f1_scorer = make_scorer(f1_score, zero_division=1)
+        roc_auc_scorer = make_scorer(roc_auc_score)
+
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=25)
-        cv_scores = cross_val_score(
-            knn_classifier, self.X_train, self.y_train, cv=cv, scoring="accuracy"
+        cv_results = cross_validate(
+            knn_classifier,
+            self.X_train,
+            self.y_train,
+            cv=cv,
+            scoring={
+                "accuracy": "accuracy",
+                "precision": precision_scorer,
+                "recall": recall_scorer,
+                "f1": f1_scorer,
+                "roc_auc": roc_auc_scorer,
+            },
+            return_train_score=False,
         )
 
-        print(f"Cross-validation accuracy scores: {cv_scores}")
-        print(
-            f"Mean accuracy from cross-validation: {cv_scores.mean():.2f} ± {cv_scores.std():.2f}"
-        )
+        print("Cross-validation results:")
+
+        print("Cross-validation results on training set:")
+        print(f"Accuracy: {cv_results['test_accuracy']}")
+        print(f"Precision: {cv_results['test_precision']}")
+        print(f"Recall: {cv_results['test_recall']}")
+        print(f"F1-Score: {cv_results['test_f1']}")
+        print(f"AUC-ROC: {cv_results['test_roc_auc']}")
 
         knn_classifier.fit(self.X_train, self.y_train)
         y_prediction = knn_classifier.predict(self.X_test)
