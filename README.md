@@ -54,6 +54,6 @@ Finally, because the dataset we used has very high dimensionality (79 features) 
 ## Insights and Lessons Learned
 
 ## Conclusion
-Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. High dimensionality remained a challenge, even after PCA, suggesting potential information loss. Moving forward, exploring ensemble methods like XGBoost, other strategies to address imbalance data, feature engineering, and considering transfer learning for feature extraction could further refine model performance.
+Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalance data, feature engineering, and considering transfer learning for feature extraction could further refine model performance.
 
 
