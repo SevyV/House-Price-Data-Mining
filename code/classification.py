@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import (
+    ConfusionMatrixDisplay,
     accuracy_score,
     classification_report,
     confusion_matrix,
@@ -54,7 +56,10 @@ class Classification:
         print("k-NN Classification Report:")
         print(classification_report(self.y_test, y_prediction))
         print("Confusion Matrix:")
-        print(confusion_matrix(self.y_test, y_prediction))
+        cm = confusion_matrix(self.y_test, y_prediction)
+        disp = ConfusionMatrixDisplay(
+            confusion_matrix=cm, display_labels=np.unique(self.y_train)
+        )
         print("k-NN time (seconds) : ", end_time - start_time)
 
         # Multi-class ROC Curve
@@ -107,6 +112,6 @@ class Classification:
 
     def run_all_classifications(self):
         # Run all classification methods and evaluations
-        #self.knn_classification()
+        # self.knn_classification()
         self.svm_classification()
         self.random_forest_classification()
