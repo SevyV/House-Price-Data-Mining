@@ -64,12 +64,15 @@ The reason why these selected features have an impact on the classification task
 
 Performance Comparisons:
 Running the SVM algorithm with and without feature selection methods produced the following results: 
+
 ![table](./report_images/fs_svm.PNG)
 
 Running the k-NN algorithm with and without the various feature selection methods and was able to produce the following results:
+
 ![table](./report_images/fs_knn.PNG)
 
 Running the Random Forest algorithm with and without feature selection produced the following table of results: 
+
 ![table](./report_images/fs_rf.PNG)
 
 ## Clustering
