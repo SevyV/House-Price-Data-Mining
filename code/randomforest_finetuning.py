@@ -37,6 +37,8 @@ class RandomForest:
         y_pred_test = rf.predict(X_test)
         y_pred_proba_test = rf.predict_proba(X_test)
         
+        print("Classification report RF:" ,classification_report(y_test, y_pred_test))
+        
         # Calculate evaluation metrics on test data
         accuracy = accuracy_score(y_test, y_pred_test)
         precision = precision_score(y_test, y_pred_test, average='weighted')
@@ -63,13 +65,12 @@ class RandomForest:
         ax_roc.grid(True)
         plt.show()
         '''
-        # Assuming the number of classes is 5
         n_classes = 5
         
-        # Binarize the test labels
+        # Binarize test labels
         y_test_bin = label_binarize(y_test, classes=range(n_classes))
         
-        # Get the predicted probabilities from the random forest classifier
+        # Predicted probabilities from the random forest classifier
         y_prob = rf.predict_proba(X_test)
         
         # Create the plot
@@ -114,15 +115,15 @@ class RandomForest:
         rf = RandomForestClassifier(random_state=42)
 
         param_grid = {
-            'n_estimators': [140, 145, 150, 155],
-            'max_depth': [8, 9, 10, 11, 12],
+            'n_estimators': [500, 550, 600, 700],
+            'max_depth': [14, 15, 16],
             'max_features': ['sqrt'],
-            'min_samples_split': [2, 3, 4, 5],
-            'min_samples_leaf': [2, 3, 4, 6],
-            'bootstrap': [True]
+            'min_samples_split': [10, 12, 14],
+            'min_samples_leaf': [1, 2, 3],
+            'bootstrap': [False]
         }
     
-        grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2, scoring='accuracy')
+        grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1, verbose=1, scoring='accuracy')
     
         grid_search.fit(X_train, y_train)
     

@@ -20,31 +20,24 @@ class Preprocessor:
     def preprocess(self, train):
         # Handle numerical na values
         train['LotFrontage'].fillna(train['LotFrontage'].median(), inplace=True)
-        #test['LotFrontage'].fillna(train['LotFrontage'].median(), inplace=True)
-        
         train.dropna(subset=['MasVnrArea'], inplace=True)
-        #test.dropna(subset=['MasVnrArea'], inplace=True)
-        
         train['GarageYrBlt'].fillna(train['YearBuilt'], inplace=True)
-        #test['GarageYrBlt'].fillna(train['YearBuilt'], inplace=True)
         
         train.drop(columns=['Id'], inplace=True)
-        
-        
         
         # Normalize numerical features
         numerical_features = train.select_dtypes(include=['int64', 'float64']).columns
         numerical_features = numerical_features[numerical_features != 'SalePrice'] 
         scaler = StandardScaler()
         train[numerical_features] = scaler.fit_transform(train[numerical_features])
-        #test[numerical_features] = scaler.fit_transform(test[numerical_features])
-        
-        
+
+        # Handle categorical values
         train = self.__hot_encode(train)
+        
+        # Create bin labels
         train = self.__create_bin_labels(train)
         
-        #data reduction
-        # Step 1: Count the number of data points for each label
+        # Data reduction
         label_counts = Counter(train['PriceCategory'])
         print("Number of data points for each label:")
         print(label_counts)
@@ -52,9 +45,7 @@ class Preprocessor:
         sorted_labels = sorted(label_counts.items(), key=lambda x: x[1], reverse=True)
         max_label, second_max_label = sorted_labels[0][0], sorted_labels[1][0]
         
-        filtered_data = train[
-            ~train['PriceCategory'].isin([max_label, second_max_label])
-        ]  # Keep all other labels
+        filtered_data = train[~train['PriceCategory'].isin([max_label, second_max_label])]  
         
         label1_data = train[train['PriceCategory'] == max_label]
         label1_sample = label1_data.sample(n=350, random_state=42)
@@ -66,7 +57,7 @@ class Preprocessor:
         balanced_train = balanced_train.reset_index(drop=True)
         
 
-        # call feature select 
+        # Feature selection 
         mi_selected_feat, mi_y = self.feature_selection(balanced_train)
         lasso_selected_feat, lasso_y = self.lasso_feature_selection(balanced_train)
         
@@ -79,8 +70,7 @@ class Preprocessor:
         print("Features selected by Lasso Regression: ", lasso_features)
         print("Common features selected by both methods: ", common_features)
 
-        #test = self.__create_bin_labels(test)
-        return balanced_train #, test
+        return balanced_train 
         
     def lasso_feature_selection(self, train: pd.DataFrame, alpha=0.067):
         # 0.067
@@ -163,10 +153,7 @@ class Preprocessor:
         # Apply the function to create the 'PriceCategory' column
         data['PriceCategory'] = data['SalePrice'].apply(map_price_to_category)
     
-        # Map the categorical labels to numerical values
-        #price_mapping = {'<100,000': 0, '100,000-199,999': 1, '200,000-299,999': 2, '300,000-399,999': 3, '>=400,000': 4}
-        #data['PriceCategory'] = data['PriceCategory'].map(price_mapping)
-    
+       
         # Drop the original 'SalePrice' column
         data.drop(columns=['SalePrice'], inplace=True)
     
@@ -182,15 +169,13 @@ class Preprocessor:
         # Fit PCA on the training data
         pca.fit(X)
         
-        # Transform both training data using the fitted PCA
+        # Transform training data using the fitted PCA
         train_pca = pca.transform(X)
-        #test_pca = pca.transform(test)
-        
+       
         # Convert the transformed data into DataFrames with appropriate column names
         train_pca_df = pd.DataFrame(train_pca, columns=[f'PC{i+1}' for i in range(num_features)])
-        #test_pca_df = pd.DataFrame(test_pca, columns=[f'PC{i+1}' for i in range(num_features)])
         
-        return train_pca_df, y #, test_pca_df
+        return train_pca_df, y 
     
     def __hot_encode(self, train):
         categorical_columns = train.select_dtypes(include=['object']).columns
@@ -198,11 +183,6 @@ class Preprocessor:
         for col in categorical_columns:
             train[col] = train[col].fillna('unknown')
         train_encoded = pd.get_dummies(train, columns=categorical_columns, drop_first=True)
-        #test_encoded = pd.get_dummies(test, columns=categorical_columns, drop_first=True)
-        
-        # Ensure that both train and test datasets have the same columns
-        # This will add missing columns to the test set with 0s
-        #test_encoded = test_encoded.reindex(columns=train_encoded.columns, fill_value=0)
         
         return train_encoded #, test_encoded
     

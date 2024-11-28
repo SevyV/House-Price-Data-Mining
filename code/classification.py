@@ -107,6 +107,6 @@ class Classification:
 
     def run_all_classifications(self):
         # Run all classification methods and evaluations
-        self.knn_classification()
+        #self.knn_classification()
         self.svm_classification()
         self.random_forest_classification()
