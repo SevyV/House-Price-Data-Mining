@@ -20,22 +20,15 @@ class RandomForest:
         start_time = time.time()
         rf = RandomForestClassifier(random_state=42)
         
-        # Perform 10-fold cross-validation on the training data (only for training/fit process)
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
         
         cv_scores = cross_val_score(rf, X_train, y_train, cv=cv, scoring='accuracy')
 
-        # Calculate the mean and standard deviation
         mean_cv_score = np.mean(cv_scores)
         std_cv_score = np.std(cv_scores)
-        
-        print(f"Mean CV Score: {mean_cv_score:.4f}")
-        print(f"Standard Deviation of CV Scores: {std_cv_score:.4f}")
-        
 
         cv_predictions = cross_val_predict(rf, X_train, y_train, cv=cv)
         
-        # Calculate precision, recall, and F1 score
         precision = precision_score(y_train, cv_predictions, average='weighted')  # 'weighted' for multi-class classification
         recall = recall_score(y_train, cv_predictions, average='weighted')
         f1 = f1_score(y_train, cv_predictions, average='weighted')
@@ -47,9 +40,9 @@ class RandomForest:
         print(f"Recall: {recall:.4f}")
         print(f"F1 Score: {f1:.4f}")
            
-        # Fit the model on the entire training set
+
         rf.fit(X_train, y_train)
-        # Predict on the test set
+
         y_pred_test = rf.predict(X_test)
         end_time = time.time()    
         print("RF time (seconds) : ", end_time - start_time)
@@ -84,10 +77,9 @@ class RandomForest:
         
             plt.plot(fpr, tpr, lw=2, label=f"Class {i} (AUC = {roc_auc:.2f})")
         
-        # Add diagonal line for random guessing
+
         plt.plot([0, 1], [0, 1], color="navy", lw=2, linestyle="--")
-        
-        # Set plot properties
+
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])
         plt.xlabel("False Positive Rate")
@@ -96,13 +88,12 @@ class RandomForest:
         plt.legend(loc="lower right")
         plt.grid(True)
         
-        # Display the plot
+   
         plt.show()
         # Plot confusion matrix
         disp.plot(cmap=plt.cm.Blues)
         plt.show()
-        
-        # Return results
+
         return {
             "Accuracy": accuracy,
             "Precision": precision,
