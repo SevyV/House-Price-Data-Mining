@@ -135,7 +135,7 @@ class RandomForest:
         ax_roc.plot([0, 1], [0, 1], color="gray", linestyle="--")
         ax_roc.set_xlabel("False Positive Rate")
         ax_roc.set_ylabel("True Positive Rate")
-        ax_roc.set_title("ROC Curves (Multiclass) After Fine-Tuning")
+        ax_roc.set_title("ROC Curves (Multiclass) After Hyperparameter Tuning")
         ax_roc.legend(loc="lower right")
         ax_roc.grid(True)
         plt.show()
