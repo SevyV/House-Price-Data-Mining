@@ -44,6 +44,26 @@ Finally, because the dataset we used has very high dimensionality (79 features) 
 ## Feature Selection
 
 ## Clustering
+Using clustering for visualization helps in identifying the structure of natural groupings in the data. Before clustering, we PCA-reduced the data to 2 to account for the curse of dimensionality as euclidean distance between points was used in all of the chosen clustering algorithms. In high-dimensional data, the euclidean distance becomes less informative compared to working in a 2D space. Through PCA-reduction, noise was removed in our 80-feature dataset while retaining the most meaningful features. This resulted in better average performance across the 3 clustering algorithms applied to the dataset.
+
+Clustering results with original data (without PCA-reduction):
+![table](./report_images/clustering/originaldata.png)
+![plot](./report_images/clustering/originaldata_plots.png)
+Clustering results with PCA-reduced data to 2 dimensions:
+![table](./report_images/clustering/pca_reduced.png)
+![plot](./report_images/clustering/pca_reduced_plots.png)
+
+KMeans Clustering:
+KMeans Clustering was not appropriate for our case as the algorithm works to produce k similar-sized, spherical clusters. As seen previously, our dataset retains some class imbalance in the extremes of the 5 classification bins. The Silhouette Score of 0.388 reflects a moderate performance as a set of well-defined clusters should result in a score closer to 1. Furthermore, the Calinski-Harabasz Score (high is optimal) of 991.422 and Davies-Bouldin (low is optimal) of 0.875 suggests that clusters are well-separated. In summary, these scores indicate that there exists a structure within the dataset.
+
+Agglomerative Clustering:
+Agglomerative Clustering resulted in similar performance to KMeans. In this algorithm, the number of clusters is not required as a parameter, it is an exploratory method that helps in finding hierarchical structure in the data. This is not appropriate for our case as there is no inherent hierarchical structure (parent-child/ancestor-descendant) among the data points of our housing dataset. Instead, the features in the housing dataset—such as price, size, number of bedrooms, location, and others are primarily continuous or categorical variables that represent the attributes of each house rather than any form of hierarchical relationship. Despite this, Agglomerative Clustering was still able to group data into clusters with similar feature profiles.
+
+DBSCAN Clustering:
+As seen in the plots previously, DBSCAN produced a different structure of clusters compared to the KMeans and Agglomerative algorithms. 
+DBSCAN does not require the number of clusters as a parameter but it is sensitive to the input parameters eps and min_samples. eps controls the maximum distance between two points to be considered as members of the same cluster. min_samples specifies the minimum number of data points required to form a dense region, a cluster. With reduction to 2 dimensions, min_samples was set to 3 and eps was set to 0.7 by using the k-distance graph and finding the elbow point. 
+Due to the dataset containing data points that are packed closely together in a dense region of the feature space, the result was one main dominant cluster with a few other clusters and outliers. Thus, the DBSCAN algorithm is not appropriate for the dataset as it fails to identify any sort of meaningful structure for our data other than detecting outliers.
+The Silhouette Score of -0.002 is very low, indicating that the clustering is poor in a sense where clusters are too close to each other and the data points in one cluster are not well-separated from other clusters. The Calinski-Harabasz Score of 12.599 (low, sub-optimal) and Davies-Bouldin Score of 2.278 (high, sub-optimal) support this claim.
 
 ## Outlier Detection
 

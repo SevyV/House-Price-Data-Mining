@@ -58,8 +58,9 @@ class Classification:
         print("Confusion Matrix:")
         cm = confusion_matrix(self.y_test, y_prediction)
         disp = ConfusionMatrixDisplay(
-            confusion_matrix=cm, display_labels=np.unique(self.y_train)
+            confusion_matrix=cm, display_labels=np.unique(self.y_test)
         )
+        disp.plot()
         print("k-NN time (seconds) : ", end_time - start_time)
 
         # Multi-class ROC Curve
@@ -112,6 +113,6 @@ class Classification:
 
     def run_all_classifications(self):
         # Run all classification methods and evaluations
-        # self.knn_classification()
+        self.knn_classification()
         self.svm_classification()
         self.random_forest_classification()
