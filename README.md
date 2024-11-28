@@ -37,7 +37,7 @@ However, upon our EDA (as is further explained and visualized below), we realize
 
 We felt this binning was appropriate because people with lower budgets while searching for homes to buy also have tighter budgets, while those with larger budgets typically have a wider range of prices they are willing to consider. This labelling made the data much more balanced.To further balance the data we also performed data reduction for classes 1 and 2 as they still had substantially more data than the other classes. We did this by random sampling subsets of the data belonging to both classes. After the data reduction, we still had over 1000 rows of data to work with.
 
-Finally, because the dataset we used has very high dimensionality (79 features) we performed PCA before doing many of the following tasks for the project. This allowed for better algorithm performance and better visualizations.
+Finally, because the dataset we used has very high dimensionality (79 features) we performed PCA before doing some of the following tasks for the project. This allowed for better algorithm performance and better visualizations.
 
 ## Exploratory Data Analysis
 
