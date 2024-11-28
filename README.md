@@ -44,6 +44,19 @@ Performing Exploratory Data Analysis revealed some notable relationships between
 
 ![plot](./report_images/eda_mean_sale_price_vs_OverallQual.png)
 
+Interestingly, properties with condition ratings of 5 and 9 had by far the highest average sale price while having a dip in the 6 to 9 range. This could likely be due to a few outlier properties within the 5 condition rating category skewing the average calculation. 
+
+![plot](./report_images/eda_mean_sale_price_vs_OverallCond.png)
+
+A heatmap pertaining to the Average property sale price mapped against the overall quality and condition was produced. The heatmap displayed a general correlation between higher ratings of each type. As illustrated below, the average sale prices are higher in the bottom left corner of the heat map.
+
+![plot](./report_images/eda_Qual_and_Cond_heatmap.png)
+
+One of the biggest potential challenges with our current dataset is the price category feature. After plotting a histogram of the distribution between each category, it became clear that price category 1 pertaining to houses within the price range of $100,000 to $200,000 had a disproportionately larger number of samples compared to the other categories. 
+
+![plot](./report_images/eda_price_category_distribution.png)
+To remedy this we plan to adjust the ranges to create a more even distribution between all the categories.
+
 ## Feature Selection
 
 ## Clustering
