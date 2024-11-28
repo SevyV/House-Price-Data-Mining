@@ -25,3 +25,35 @@ However, if you have the data at a different location on your computer, you can 
 ### Example
 
 ./main.py --train "data path to train.csv" --test "data path to test.csv" 
+
+
+# **House Prices: Data Mining Techniques**
+An analysis of a variety of data mining algorithms using House Prices data.
+
+## **Table of Contents**
+1. [Installation](#installation)
+2. [Running the Code](#running-the-code)
+
+
+   
+## **Installation**
+1. Ensure you have python 3.11.4 installed (or another version but this one was used during development). Otherwise, install it.
+2. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/your-repository.git
+
+3. Navigate into the project directory:
+   ```bash
+   cd House-Price-Data-Mining
+
+4. Install dependencies:
+   ```bash
+   pip install numpy pandas scikit-learn matplotlib 
+
+## **Running the Code**
+```bash
+python main.py
+  
+
+
+
