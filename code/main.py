@@ -7,27 +7,10 @@ Created on Thu Nov  7 20:27:24 2024
 # This will be the main file where we run everything
 import argparse
 import pandas as pd
-from sklearn.calibration import label_binarize
 from sklearn.decomposition import PCA
 from preprocessing import Preprocessor
 from clustering import Clustering
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.ensemble import IsolationForest
-from sklearn.neighbors import LocalOutlierFactor, KNeighborsClassifier
-from sklearn.covariance import EllipticEnvelope
-from sklearn.feature_selection import mutual_info_regression
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
-from scipy.stats import skew, kurtosis
-from sklearn.metrics import (
-    accuracy_score,
-    auc,
-    classification_report,
-    confusion_matrix,
-    roc_curve,
-)
 from outlierdetection import OutlierDetection
 from classification import Classification
 

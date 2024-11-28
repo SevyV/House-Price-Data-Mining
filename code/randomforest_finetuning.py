@@ -6,7 +6,7 @@ Created on Tue Nov 19 15:11:30 2024
 @author: sevyveeken
 """
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import cross_val_predict, GridSearchCV, StratifiedKFold, cross_val_score
+from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_score
 from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay, 
                              accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc, classification_report)
 from sklearn.preprocessing import label_binarize
@@ -22,7 +22,6 @@ class RandomForest:
         
         # Perform 10-fold cross-validation on the training data (only for training/fit process)
         cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
-        y_pred = cross_val_predict(rf, X_train, y_train, cv=cv)
         
         cv_scores = cross_val_score(rf, X_train, y_train, cv=cv, scoring='accuracy')
 
@@ -37,7 +36,6 @@ class RandomForest:
         rf.fit(X_train, y_train)
         # Predict on the test set
         y_pred_test = rf.predict(X_test)
-        y_pred_proba_test = rf.predict_proba(X_test)
         end_time = time.time()    
         print("RF time (seconds) : ", end_time - start_time)
         
