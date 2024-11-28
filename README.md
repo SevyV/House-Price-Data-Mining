@@ -40,6 +40,9 @@ We felt this binning was appropriate because people with lower budgets while sea
 Finally, because the dataset we used has very high dimensionality (79 features) we performed PCA before doing some of the following tasks for the project. This allowed for better algorithm performance and better visualizations.
 
 ## Exploratory Data Analysis
+Performing Exploratory Data Analysis revealed some notable relationships between some of the multitude of different features present within the data set. For starters the variables OverallQual and OverallCond, denoting the quality and condition of the property respectively, have clear connections to the sale price of the properties. For instance there is a near linear relationship between sale price and the quality rating. 
+
+![plot](./report_images/eda_mean_sale_price_vs_OverallQual.png)
 
 ## Feature Selection
 
