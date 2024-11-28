@@ -97,7 +97,9 @@ ROC curve and confusion matrix:
 ![plot](./report_images/classification/knn_roc_conf.png)
 
 Accuracy scores collected: 0.69, 0.69, 0.75, 0.67, 0.66, 0.68686869, 0.66666667, 0.70707071, 0.62626263, 0.70707071
+
 Mean accuracy from cross-validation: 0.69 ± 0.03
+
 Accuracy (k-NN): 0.69
 ![table](./report_images/classification/classification_report.png)
 k-NN time (seconds) :  0.06676197052001953
