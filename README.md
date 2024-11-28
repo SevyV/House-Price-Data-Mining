@@ -91,29 +91,23 @@ Even with the few observed outliers in the visualizations, we have decided not t
 ## Classification
 
 k-NN
-With default parameters, the k-NN classifier was evaluated using 10-fold cross-validation and several metrics.
+With default parameters, the k-NN classifier was evaluated holdout usint 80/20 train/test split.
 
 ROC curve and confusion matrix:
 ![plot](./report_images/classification/knn_roc_conf.png)
 
-Accuracy scores collected: 0.69, 0.69, 0.75, 0.67, 0.66, 0.68686869, 0.66666667, 0.70707071, 0.62626263, 0.70707071
+Random Forest:
 
-Mean accuracy from cross-validation: 0.69 ± 0.03
+SVM:
 
-Accuracy (k-NN): 0.69
-
-![table](./report_images/classification/classification_report.png)
-
-
-k-NN time (seconds) :  0.11883211135864258
 
 ## Hyperparameter Tuning
 Grid search was used to for hyperparameter tuning a random forest classifier. To reduce the amount of time it took to run, initially some random values were chosen for each parameter, but each of the following times the range of hyperparameter values to be tested were closer to the previous best hyperparameter found by the previous grid search.
 
 ![table](./report_images/ht_table.jpg)
 <div style="display: flex;">
-  <img src="./report_images/ht_roc.png" width="40%" margin-right: 10px;">
-  <img src="./report_images/ht_cf.png" width="40%"">
+  <img src="./report_images/ht_roc.png" width="50%" margin-right: 10px;">
+  <img src="./report_images/ht_cf.png" width="50%"">
 </div> 
 
 An increase in accuracy indicates a general improvement of model performance. Similarly, an increase in precision and recall reflect fewer false positive and false negative predictions respectively. Additionally, an increased F1 score signifies an improved balance between precision and recall. Hyperparameter tuning the Random Forest model resulted in relatively small but consistent improvements across all metrics, reflecting better overall model performance and reliability. These enhancements suggest that hyperparameter tuning has successfully optimized (by a small amount) the model for better generalization and prediction accuracy. Grid Search can be both time and memory constrained, thus if we had more memory or allowed the Grid search to run for a very long time there would most likely be better results.
