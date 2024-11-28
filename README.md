@@ -64,13 +64,13 @@ The reason why these selected features have an impact on the classification task
 
 Performance Comparisons:
 Running the SVM algorithm with and without feature selection methods produced the following results: 
-![table](./report_images/clustering/fs_svm.PNG)
+![table](./report_images/fs_svm.PNG)
 
 Running the k-NN algorithm with and without the various feature selection methods and was able to produce the following results:
-![table](./report_images/clustering/fs_knn.PNG)
+![table](./report_images/fs_knn.PNG)
 
 Running the Random Forest algorithm with and without feature selection produced the following table of results: 
-![table](./report_images/clustering/fs_rf.PNG)
+![table](./report_images/fs_rf.PNG)
 
 ## Clustering
 Using clustering for visualization helps in identifying the structure of natural groupings in the data. Before clustering, we PCA-reduced the data to 2 to account for the curse of dimensionality as euclidean distance between points was used in all of the chosen clustering algorithms. In high-dimensional data, the euclidean distance becomes less informative compared to working in a 2D space. Through PCA-reduction, noise was removed in our 80-feature dataset while retaining the most meaningful features. This resulted in better average performance across the 3 clustering algorithms applied to the dataset.
