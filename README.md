@@ -1,5 +1,5 @@
 # CMPT 459 Final Project Report
-Authors: Jonathan Jung - 301459402, Seong Hyeon (Kevin) Park - 301396855, Severn (Sevy) Veeken - 301571252
+Authors: Jonathan Jung, Seong Hyeon (Kevin) Park, Severn (Sevy) Veeken
 
 Dataset used for this project: https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data
 
@@ -164,6 +164,6 @@ Some insights that were gained from performing these analyses was that the major
 
 
 ## Conclusion
-Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalanced data, feature engineering, and considering transfer learning for feature extraction, all of which could further refine model performance. Furthermore, we would have liked to perform hyperparameter tuning for clustering, outlier-detection, and the other classification algorithms with anticipation of better results. Specifically for clustering, other distance metrics can be explored that are better suited to our high-dimensional dataset.
+Despite efforts to balance classes, minor imbalances persisted, particularly in extreme price ranges, affecting predictive accuracy. Future work could consist of exploring ensemble methods like XGBoost, other strategies to address imbalanced data, feature engineering, all of which could further refine model performance. Furthermore, we would have liked to perform hyperparameter tuning for clustering, outlier-detection, and the other classification algorithms with anticipation of better results. Specifically for clustering, other distance metrics can be explored that are better suited to our high-dimensional dataset.
 
 
