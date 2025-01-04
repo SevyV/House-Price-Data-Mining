@@ -12,7 +12,7 @@ An analysis of a variety of data mining algorithms using House Prices data.
 1. Ensure you have python 3.11.4 installed (or another version but this one was used during development). Otherwise, install it.
 2. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/SevyV/House-Price-Data-Mining.git
 
 3. Navigate into the project directory:
    ```bash
@@ -42,6 +42,7 @@ Once that is done just run the program as before, but this time the algorithms w
 In order to run the code you'll want need to run the main.py file directly. The dataset is included so if all of that is installed, no extra command line arguments are necessary to execute the code.
 ```bash
 python main.py
+```
 
 
 
